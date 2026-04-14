@@ -1,0 +1,54 @@
+routes:
+  requirement_clarification:
+    agent: ba-agent
+    playbook: requirement-intake
+    skill: requirement-clarifier
+  process_bpmn:
+    agent: ba-agent
+    playbook: requirement-intake
+    skill: bpmn-mermaid-writer
+  user_story_generation:
+    agent: ba-agent
+    playbook: backlog-refinement
+    skill: user-story-writer
+  acceptance_criteria:
+    agent: ba-agent
+    playbook: backlog-refinement
+    skill: acceptance-criteria-writer
+  brd_drafting:
+    agent: ba-agent
+    playbook: requirement-intake
+    skill: brd-drafter
+  frs_drafting:
+    agent: ba-agent
+    playbook: requirement-intake
+    skill: frs-drafter
+  prd_drafting:
+    agent: ba-agent
+    playbook: prd-generation
+    skill: prd-drafter
+  feature_list_generation:
+    agent: ba-agent
+    playbook: product-development
+    skill: feature-breakdown-writer
+  process_analysis:
+    agent: ba-agent
+    skill: process-analyzer
+  prioritization:
+    agent: ba-agent
+    playbook: backlog-refinement
+    skill: prioritization-helper
+  wireframe_design:
+    agent: uxui-agent
+    playbook: product-development
+    skill: wireframe-writer
+  ui_html:
+    agent: fe-agent
+    playbook: product-development
+    skill: html-implementer
+review_routes:
+  ambiguity: ambiguity-checker
+  completeness: completeness-checker
+  consistency: consistency-checker
+  template: template-checker
+# TODO: Add confidence-based fallback routing and input-type detection.

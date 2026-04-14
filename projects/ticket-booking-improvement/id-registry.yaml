@@ -1,0 +1,17 @@
+requirements:
+  req-001.md: REQ-001
+brd:
+  - BRD-001
+fr:
+  - FR-001
+us:
+  - US-001
+ac:
+  - AC-001
+feature:
+  - FEAT-001
+ui:
+  - UI-001
+review:
+  - RV-001
+tc:

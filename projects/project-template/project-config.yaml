@@ -1,0 +1,12 @@
+project_name: project-template
+description: Replace this with a short project description
+owner: Replace this with the project owner
+default_playbook: product-development
+domain: replace-this-domain
+created_date: 2026-04-13
+active_agents:
+  - ba-agent
+  - uxui-agent
+  - fe-agent
+  - reviewer-agent
+notes: Replace this with the first scope note for the project

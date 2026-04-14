@@ -1,0 +1,18 @@
+default_models:
+  orchestrator: standard-llm
+  ba_agent: standard-llm
+  uxui_agent: standard-llm
+  fe_agent: implementation-llm
+  reviewer_agent: review-llm
+  research_agent: retrieval-llm
+task_overrides:
+  requirement_clarification: fast-llm
+  process_bpmn: standard-llm
+  brd_generation: standard-llm
+  frs_generation: standard-llm
+  feature_list_generation: standard-llm
+  wireframe_generation: standard-llm
+  ui_html: implementation-llm
+  prd_generation: strategic-llm
+  prioritization: analytical-llm
+# TODO: Replace placeholders with real provider and model names.

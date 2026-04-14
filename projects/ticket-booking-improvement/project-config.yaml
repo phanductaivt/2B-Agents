@@ -1,0 +1,12 @@
+project_name: ticket-booking-improvement
+description: Improve booking change and refund support experience
+owner: BA Team
+default_playbook: product-development
+domain: ticketing
+created_date: 2026-04-13
+active_agents:
+  - ba-agent
+  - uxui-agent
+  - fe-agent
+  - reviewer-agent
+notes: Focus on ticket change eligibility, fees, and refund guidance

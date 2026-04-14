@@ -1,0 +1,12 @@
+project_name: loyalty-feature-expansion
+description: Improve loyalty overview and member self-service visibility
+owner: Product Analysis Team
+default_playbook: product-development
+domain: loyalty
+created_date: 2026-04-13
+active_agents:
+  - ba-agent
+  - uxui-agent
+  - fe-agent
+  - reviewer-agent
+notes: Focus on points, tier progress, and recent loyalty activity

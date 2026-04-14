@@ -1,0 +1,93 @@
+name: prd-generation
+purpose: Turn clarified initiative input from the selected project into a review-ready Markdown PRD package.
+input_type: projects/<project-name>/inputs/requirements/*.md
+rules:
+  - Start from a requirement or initiative file with enough business context to draft a PRD.
+  - Keep the PRD simple enough for early stakeholder review.
+  - Treat missing goals, scope, or success measures as review issues.
+  - Save final output as Markdown files only.
+  - BA Agent owns this playbook now that feature structuring and PRD drafting are BA-led.
+  - Use project knowledge first when the selected project provides it.
+steps:
+  - order: 1
+    step: review-source-file
+    description: Read the input requirement or initiative note.
+  - order: 2
+    step: clarify-gap-areas
+    description: Use the Requirement Clarifier skill if the PRD input is still weak.
+  - order: 3
+    step: draft-mini-prd
+    description: Use the PRD Drafter skill to prepare a simple product draft.
+  - order: 4
+    step: validate-prd
+    description: Check completeness and template fit.
+  - order: 5
+    step: write-markdown-output
+    description: Save the PRD package as Markdown files.
+decision_logic:
+  - id: weak-problem-statement
+    when: The source file describes requests or ideas but not a clear business problem.
+    then: Use the Requirement Clarifier first and postpone the PRD draft until the problem is clearer.
+    why: A PRD is difficult to review if the problem itself is still vague.
+    markdown_effect: review-notes.md must say that the PRD draft is based on a weak problem statement.
+  - id: missing-goals-or-measures
+    when: Goals, value, or success measures are missing.
+    then: Draft the PRD with open questions, but mark the package as needs-review.
+    why: Stakeholders should see the gap before they approve the draft.
+    markdown_effect: mini-prd.md must keep open questions visible and review-notes.md must mention the gap.
+  - id: overly-broad-scope
+    when: The initiative looks too large for one simple first draft.
+    then: Keep the scope section narrow and note that future phases may be needed.
+    why: Early PRD review works better when the first scope is realistic.
+    markdown_effect: mini-prd.md scope should focus on the first slice, not the full future vision.
+  - id: missing-template-sections
+    when: Any required PRD section is missing after drafting.
+    then: Mark the package as needs-review and add the missing section to review-notes.md.
+    why: Stakeholder review is easier when the structure is complete.
+    markdown_effect: review-notes.md must show what section is missing.
+skills_used:
+  - requirement-clarifier
+  - prd-drafter
+validation_checkpoints:
+  - checkpoint: after-clarification
+    validator: completeness-checker
+    checks:
+      - the problem is stated clearly
+      - goals or business outcomes are visible
+      - major scope gaps are flagged
+    pass_when: The input is strong enough to support a first PRD draft.
+    fail_action: Keep drafting simple, but mark the PRD package as needs-review.
+  - checkpoint: after-prd-draft
+    validator: completeness-checker
+    checks:
+      - mini-prd.md includes problem, goal, users, scope, success measure, risks, and open questions
+      - the PRD does not skip key business context
+    pass_when: The PRD covers the key areas needed for stakeholder review.
+    fail_action: Add the missing areas to review-notes.md and request follow-up detail.
+  - checkpoint: before-save
+    validator: template-checker
+    checks:
+      - Markdown headings are readable
+      - sections are easy to edit
+      - the final package is understandable for a business audience
+    pass_when: The Markdown files are clean and review-ready.
+    fail_action: Mark the saved package as needs-review.
+expected_markdown_outputs:
+  - file: mini-prd.md
+    purpose: Provide the first PRD-style document for review.
+    required_sections:
+      - Problem
+      - Goal
+      - Users
+      - Scope
+      - Success Measure
+      - Risks
+      - Open Questions
+  - file: review-notes.md
+    purpose: Explain what is still weak, missing, or risky in the PRD draft.
+    required_sections:
+      - Validation Status
+      - Completeness Checker
+      - Template Checker
+      - Suggested Next Step
+# TODO: Add support for version notes across PRD revisions.

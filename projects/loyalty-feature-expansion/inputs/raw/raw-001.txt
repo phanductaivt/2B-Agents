@@ -1,0 +1,3 @@
+Members need a better loyalty dashboard.
+Show points, tier progress, and activity.
+If data is delayed, show guidance.
