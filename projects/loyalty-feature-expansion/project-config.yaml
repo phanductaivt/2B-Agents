@@ -3,6 +3,7 @@ description: Improve loyalty overview and member self-service visibility
 owner: Product Analysis Team
 default_playbook: product-development
 domain: loyalty
+scenario: loyalty
 created_date: 2026-04-13
 active_agents:
   - ba-agent

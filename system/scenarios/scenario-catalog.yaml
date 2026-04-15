@@ -1,0 +1,24 @@
+scenarios:
+  ticketing:
+    file: ticketing.yaml
+    domains:
+      - ticketing
+      - booking
+      - airline
+      - travel
+  loyalty:
+    file: loyalty.yaml
+    domains:
+      - loyalty
+      - rewards
+      - membership
+  order-status:
+    file: order-status.yaml
+    domains:
+      - orders
+      - order
+      - ecommerce
+      - retail
+  generic:
+    file: generic.yaml
+    domains: []

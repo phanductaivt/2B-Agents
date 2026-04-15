@@ -1,0 +1,123 @@
+scenario_name: generic
+domain: generic
+business_problem: Users do not have clear visibility into the current status or next step.
+functional_summary: The page must display a clear current status with fallback guidance.
+business_goals:
+  - Reduce avoidable support effort.
+  - Improve user confidence through clearer visibility.
+  - Keep first release scope small and practical.
+scope:
+  - Show one clear status view in first release.
+  - Show fallback support guidance when data is missing.
+default_business_rules:
+  - Show only approved business values.
+  - Show only data for the correct user or record.
+  - Show guidance if valid data is not available.
+main_flow:
+  - User opens the status page.
+  - System loads the latest approved status.
+  - System displays the status to the user.
+alternative_flows:
+  - If status is missing, show a fallback guidance message.
+  - If the status service is unavailable, show a temporary support message.
+functional_requirements:
+  - FR-1: The user can open the page and view the latest approved status for the current record.
+  - FR-2: The system displays only approved values that are in release scope.
+  - FR-3: The page displays support guidance when no valid status is available.
+  - FR-4: The page prevents unauthorized record access.
+validations:
+  - Show only approved values.
+  - Do not show another user's record.
+  - Keep wording aligned with approved business labels.
+edge_cases:
+  - No status returned from source.
+  - Status source temporarily unavailable.
+  - Value exists but outside first-release scope.
+  - Unauthorized record access attempt.
+dependencies:
+  - Status data source is available.
+  - Business labels are approved by stakeholders.
+acceptance_criteria:
+  - Given the user opens the status page, when valid status exists, then the approved status label is displayed.
+  - Given status is displayed, when the label appears, then it matches approved business wording.
+  - Given no valid status exists, when the page loads, then support guidance is displayed.
+feature_list:
+  - level_1: Status Management
+    level_2:
+      - name: Status Visibility
+        level_3:
+          - Show Latest Approved Status
+          - Show Status Detail For Current Record
+      - name: Access Control
+        level_3:
+          - Show Data For Correct User
+          - Block Unauthorized Record View
+  - level_1: Guidance And Exceptions
+    level_2:
+      - name: Fallback Messages
+        level_3:
+          - Show Missing Status Guidance
+          - Show Temporary Service Issue Message
+      - name: Support Options
+        level_3:
+          - Explain Next Step
+          - Offer Help Path
+bpmn_steps:
+  - flowchart TD
+  - "    A[Start] --> B[User opens status page]"
+  - "    B --> C[System loads latest approved status]"
+  - "    C --> D{Valid status available?}"
+  - "    D -->|Yes| E[Show status details]"
+  - "    D -->|No| F[Show fallback guidance]"
+  - "    E --> G[End]"
+  - "    F --> G[End]"
+story_text: As a {user_role}, I want to view clear status updates so that I understand progress without extra follow-up.
+uxui_defaults:
+  screen_goal: Help the user understand the latest status quickly without contacting support.
+  main_sections:
+    - Header
+    - Summary
+    - Current status card
+    - Timeline
+    - Help section
+  components:
+    - Page title
+    - Summary card
+    - Status badge
+    - Supporting text
+    - Help link/message
+  interaction_notes:
+    - Make the latest status visually prominent.
+    - Show help section when valid status is missing.
+    - Keep labels aligned with BA-approved terms.
+  wireframe_sketch:
+    - "+--------------------------------------+"
+    - "| Header                               |"
+    - "+--------------------------------------+"
+    - "| Summary                              |"
+    - "+--------------------------------------+"
+    - "| Current Status                       |"
+    - "+--------------------------------------+"
+    - "| Timeline                             |"
+    - "+--------------------------------------+"
+    - "| Help / Support Guidance              |"
+    - "+--------------------------------------+"
+fe_defaults:
+  intro: Simple FE demo generated from BA + UXUI defaults.
+  cards:
+    - title: Summary
+      lines:
+        - "<strong>Item:</strong> REF-2048"
+        - "<strong>User:</strong> Example User"
+    - title: Current Status
+      status: In Progress
+      lines:
+        - The latest approved status is visible to the user.
+    - title: Timeline
+      list:
+        - Created
+        - Processing
+        - Completed
+    - title: Need Help?
+      lines:
+        - If status is missing or unclear, the user can follow support guidance.

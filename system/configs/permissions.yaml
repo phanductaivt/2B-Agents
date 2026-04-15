@@ -1,0 +1,22 @@
+permissions:
+  knowledge_access:
+    - domain
+    - company
+    - projects
+    - glossary
+    - templates
+  tool_access:
+    - files
+    - jira
+    - confluence
+  publish_targets:
+    - markdown
+    - html
+    - projects/<project-name>/_ops/generated
+rules:
+  - Write final output as Markdown files, except FE demo output which may be HTML.
+  - Do not publish external content without review.
+  - Mark assumptions clearly when facts are missing.
+  - Validate business output before sharing it with a team.
+  - Keep project output inside the selected project's folder.
+# TODO: Add role-based access by team or environment.

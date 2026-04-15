@@ -1,0 +1,126 @@
+scenario_name: order-status
+domain: order-status
+business_problem: Customers contact support because order progress is not clear enough.
+functional_summary: The portal must display the latest approved order status clearly with fallback guidance.
+business_goals:
+  - Reduce avoidable support effort for order updates.
+  - Improve customer confidence through clearer status visibility.
+  - Keep first release focused and easy to validate.
+scope:
+  - Show latest approved order status and simple timeline.
+  - Show fallback guidance when status is missing.
+  - Keep first release focused on one clear status feature slice.
+default_business_rules:
+  - Show only approved status labels.
+  - Customers can only view their own orders.
+  - If status is missing, show guidance and support path.
+  - Refresh status from approved source before display.
+main_flow:
+  - Customer opens order status page.
+  - System loads latest approved order status.
+  - System displays status and timeline to customer.
+alternative_flows:
+  - If no valid status is available, show support guidance.
+  - If status source is unavailable, show fallback message.
+  - If order is out of scope, show next support path.
+functional_requirements:
+  - FR-1: User can view latest approved status for current order.
+  - FR-2: System displays only approved status values in scope.
+  - FR-3: Page displays support guidance when no valid status exists.
+  - FR-4: Page blocks unauthorized order access.
+validations:
+  - Show only approved status values.
+  - Do not expose another customer's order.
+  - Keep labels aligned with approved wording.
+edge_cases:
+  - No status returned by source.
+  - Status source temporarily unavailable.
+  - Cancelled status outside first-release scope.
+  - Unauthorized order access attempt.
+dependencies:
+  - Order status source is available.
+  - Approved business labels are confirmed.
+acceptance_criteria:
+  - Given customer opens order page, when valid status exists, then approved status is displayed.
+  - Given status label is displayed, when shown, then it matches approved wording.
+  - Given valid status exists, when page loads, then latest approved value is displayed.
+  - Given no valid status exists, when page loads, then support guidance is displayed.
+feature_list:
+  - level_1: Order Management
+    level_2:
+      - name: Status Visibility
+        level_3:
+          - Show Latest Approved Status
+          - Show Status Timeline For Current Order
+      - name: Order Access Control
+        level_3:
+          - Show Status For Correct Customer Order
+          - Block Unauthorized Order View
+  - level_1: Support Guidance
+    level_2:
+      - name: Fallback Handling
+        level_3:
+          - Show Missing Status Message
+          - Show Service Unavailable Message
+      - name: Help Paths
+        level_3:
+          - Explain Next Step To Customer
+          - Offer Contact Support Path
+bpmn_steps:
+  - flowchart TD
+  - "    A[Start] --> B[Customer opens order page]"
+  - "    B --> C[System loads latest approved order status]"
+  - "    C --> D{Valid status available?}"
+  - "    D -->|Yes| E[Show approved order status]"
+  - "    D -->|No| F[Show support guidance]"
+  - "    E --> G[End]"
+  - "    F --> G[End]"
+story_text: As a {user_role}, I want to view clear order status updates so that I understand order progress without contacting support.
+uxui_defaults:
+  screen_goal: Help customers understand latest order status quickly.
+  main_sections:
+    - Header
+    - Order summary
+    - Current status card
+    - Status timeline
+    - Help section
+  components:
+    - Order reference summary
+    - Status badge
+    - Timeline list
+    - Help guidance panel
+  interaction_notes:
+    - Keep latest status prominent.
+    - Show help guidance when status is missing.
+    - Align wording to BA-approved labels.
+  wireframe_sketch:
+    - "+--------------------------------------+"
+    - "| Header                               |"
+    - "+--------------------------------------+"
+    - "| Order Summary                        |"
+    - "+--------------------------------------+"
+    - "| Current Status                       |"
+    - "+--------------------------------------+"
+    - "| Status Timeline                      |"
+    - "+--------------------------------------+"
+    - "| Help / Support Guidance              |"
+    - "+--------------------------------------+"
+fe_defaults:
+  intro: Simple FE demo generated from order-status scenario defaults.
+  cards:
+    - title: Order Summary
+      lines:
+        - "<strong>Order:</strong> ORD-2048"
+        - "<strong>Customer:</strong> Example Customer"
+    - title: Current Status
+      status: Shipped
+      lines:
+        - The latest approved status is visible to the customer.
+    - title: Status Timeline
+      list:
+        - Confirmed
+        - Packed
+        - Shipped
+    - title: Need Help?
+      lines:
+        - If status is missing or unclear, contact support.

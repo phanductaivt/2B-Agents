@@ -1,0 +1,46 @@
+gates:
+  clarification:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  brd:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  process-bpmn:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  frs:
+    allow_downstream_if: ["Pass"]
+    allow_approval_if: ["Approved"]
+  user-story:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  acceptance-criteria:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  feature-list:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  wireframe:
+    allow_downstream_if: ["Pass"]
+    allow_approval_if: ["Approved"]
+  ui:
+    allow_downstream_if: ["Pass"]
+    allow_approval_if: ["Approved"]
+  review:
+    allow_downstream_if: ["Pass", "Warning", "Fail"]
+    allow_approval_if: ["Approved", "In Review", "Rework Needed"]
+  test-cases:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  requirement-traceability-matrix:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  requirement-traceability-flow:
+    allow_downstream_if: ["Pass", "Warning"]
+    allow_approval_if: ["Approved", "In Review"]
+  risk-notes:
+    allow_downstream_if: ["Pass", "Warning", "Fail"]
+    allow_approval_if: ["Approved", "In Review", "Rework Needed"]
+  dependency-map:
+    allow_downstream_if: ["Pass", "Warning", "Fail"]
+    allow_approval_if: ["Approved", "In Review", "Rework Needed"]

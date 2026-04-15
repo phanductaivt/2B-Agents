@@ -1,0 +1,188 @@
+artifacts:
+  - name: clarification
+    stage: clarification
+    owner: ba-agent
+    dependencies: []
+    outputs:
+      - clarification.md
+    validators:
+      - ambiguity-checker
+    gate_required: true
+
+  - name: brd
+    stage: ba-core
+    owner: ba-agent
+    dependencies:
+      - clarification
+    outputs:
+      - brd.md
+    validators:
+      - completeness-checker
+      - consistency-checker
+    gate_required: true
+
+  - name: process-bpmn
+    stage: ba-core
+    owner: ba-agent
+    dependencies:
+      - clarification
+    outputs:
+      - process-bpmn.md
+    validators:
+      - consistency-checker
+    gate_required: true
+
+  - name: frs
+    stage: ba-core
+    owner: ba-agent
+    dependencies:
+      - clarification
+      - brd
+      - process-bpmn
+    outputs:
+      - frs.md
+    validators:
+      - completeness-checker
+      - consistency-checker
+    gate_required: true
+
+  - name: user-story
+    stage: ba-core
+    owner: ba-agent
+    dependencies:
+      - clarification
+      - frs
+    outputs:
+      - user-story.md
+    validators:
+      - completeness-checker
+      - ambiguity-checker
+    gate_required: true
+
+  - name: acceptance-criteria
+    stage: ba-core
+    owner: ba-agent
+    dependencies:
+      - user-story
+      - frs
+    outputs:
+      - acceptance-criteria.md
+    validators:
+      - completeness-checker
+      - consistency-checker
+    gate_required: true
+
+  - name: feature-list
+    stage: ba-core
+    owner: ba-agent
+    dependencies:
+      - frs
+    outputs:
+      - feature-list.md
+    validators:
+      - consistency-checker
+      - completeness-checker
+    gate_required: true
+
+  - name: wireframe
+    stage: design
+    owner: uxui-agent
+    dependencies:
+      - frs
+      - feature-list
+    outputs:
+      - wireframe.md
+    validators:
+      - consistency-checker
+    gate_required: true
+
+  - name: ui
+    stage: fe-prototype
+    owner: fe-agent
+    dependencies:
+      - frs
+      - wireframe
+    outputs:
+      - ui.html
+    validators:
+      - consistency-checker
+    gate_required: true
+
+  - name: review
+    stage: review
+    owner: reviewer-agent
+    dependencies:
+      - ui
+      - wireframe
+      - frs
+    outputs:
+      - review-notes.md
+    validators:
+      - ambiguity-checker
+      - completeness-checker
+      - consistency-checker
+      - template-checker
+    gate_required: true
+
+  - name: test-cases
+    stage: review
+    owner: reviewer-agent
+    dependencies:
+      - frs
+      - user-story
+      - acceptance-criteria
+    outputs:
+      - test-cases.md
+    validators:
+      - completeness-checker
+      - consistency-checker
+    gate_required: true
+
+  - name: requirement-traceability-matrix
+    stage: review
+    owner: reviewer-agent
+    dependencies:
+      - review
+      - test-cases
+    outputs:
+      - requirement-traceability-matrix.md
+    validators:
+      - consistency-checker
+      - completeness-checker
+    gate_required: true
+
+  - name: requirement-traceability-flow
+    stage: review
+    owner: reviewer-agent
+    dependencies:
+      - review
+      - test-cases
+    outputs:
+      - requirement-traceability-flow.md
+    validators:
+      - consistency-checker
+    gate_required: true
+
+  - name: risk-notes
+    stage: review
+    owner: reviewer-agent
+    dependencies:
+      - review
+      - dependency-map
+    outputs:
+      - risk-notes.md
+    validators:
+      - consistency-checker
+    gate_required: true
+
+  - name: dependency-map
+    stage: review
+    owner: reviewer-agent
+    dependencies:
+      - frs
+      - feature-list
+    outputs:
+      - projects/<project-name>/_ops/dependency-map.md
+    validators:
+      - consistency-checker
+    gate_required: false

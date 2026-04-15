@@ -3,6 +3,7 @@ description: Improve booking change and refund support experience
 owner: BA Team
 default_playbook: product-development
 domain: ticketing
+scenario: ticketing
 created_date: 2026-04-13
 active_agents:
   - ba-agent

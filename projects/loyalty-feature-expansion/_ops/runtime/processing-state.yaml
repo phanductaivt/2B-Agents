@@ -1,0 +1,6 @@
+requirements:
+  req-001.md:
+    input_hash: "9dc1cf9aa1fa08dd42a3054a15a09bf5365804e3471ef868aeabe856f09eb205"
+    last_processed_at: "2026-04-15 23:01:48"
+    output_version: "v1.0"
+    status: "processed"

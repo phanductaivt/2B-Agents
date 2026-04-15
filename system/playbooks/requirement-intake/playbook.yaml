@@ -1,0 +1,164 @@
+name: requirement-intake
+purpose: Turn one project requirement input file into a clear Markdown package for BA-led stakeholder review.
+input_type: projects/<project-name>/01-input/requirements/*.md
+rules:
+  - Start with one input file only.
+  - Keep all final outputs as Markdown files.
+  - Separate facts, assumptions, and open questions.
+  - Mark unclear areas in review-notes.md instead of hiding them.
+  - Let the BA Agent handle both analysis and feature decomposition.
+  - Use project knowledge first when the selected project provides it.
+steps:
+  - order: 1
+    step: read-input-file
+    description: Read one requirement file from `projects/<project-name>/01-input/requirements/`.
+  - order: 2
+    step: select-ba-agent
+    description: Start with the BA Agent because the request needs clarification first.
+  - order: 3
+    step: clarify-requirement
+    description: Use the Requirement Clarifier skill to organize the input.
+  - order: 4
+    step: draft-supporting-docs
+    description: Create BPMN Mermaid, user story, acceptance criteria, BRD, FRS, and feature list drafts.
+  - order: 5
+    step: validate-markdown
+    description: Review the Markdown drafts with validators before sharing them.
+  - order: 6
+    step: write-output-files
+    description: Write the final Markdown files into projects/<project-name>/_ops/generated/<input-name>/ and curated copies into `02-output/`.
+decision_logic:
+  - id: short-or-thin-input
+    when: The input file has very little detail or only one or two business facts.
+    then: Add more assumptions and open questions before drafting the rest of the package.
+    why: A thin input should not create a false sense of completeness.
+    markdown_effect: review-notes.md must clearly say that more clarification is needed.
+  - id: vague-business-language
+    when: The input uses vague words such as simple, fast, easy, or user-friendly.
+    then: Keep the draft moving, but flag the wording in review-notes.md.
+    why: Business users still need a first draft, but the ambiguity must stay visible.
+    markdown_effect: clarification.md can keep the original business note, but review-notes.md must explain the issue.
+  - id: missing-user-or-value
+    when: The input does not clearly say who the user is or what value the change creates.
+    then: Add open questions and keep the user story generic until the BA or stakeholder confirms the missing detail.
+    why: User stories are weaker when actor and value are guessed too strongly.
+    markdown_effect: clarification.md must include the open question and user-story.md should stay conservative.
+  - id: weak-draft-structure
+    when: One or more required Markdown sections are missing after drafting.
+    then: Mark the bundle as needs-review and do not treat it as review-ready.
+    why: A missing section usually means the document is not ready for team review.
+    markdown_effect: review-notes.md must show a needs-review status.
+  - id: overlapping-feature-groups
+    when: The feature list repeats the same capability in several groups.
+    then: Regroup the feature hierarchy before review.
+    why: Duplicate feature grouping makes scope harder to understand.
+    markdown_effect: feature-list.md must be rewritten into cleaner levels.
+skills_used:
+  - requirement-clarifier
+  - bpmn-mermaid-writer
+  - user-story-writer
+  - acceptance-criteria-writer
+  - brd-drafter
+  - frs-drafter
+  - feature-breakdown-writer
+validation_checkpoints:
+  - checkpoint: after-clarification
+    validator: ambiguity-checker
+    checks:
+      - vague wording in the source note
+      - missing follow-up questions
+      - unclear business language inside clarification.md
+      - unclear assumptions that still need stronger wording
+    pass_when: The clarification is readable and key unclear areas are visible.
+    fail_action: Add issues to review-notes.md and keep validation status as needs-review.
+  - checkpoint: after-story-and-ac
+    validator: completeness-checker
+    checks:
+      - user-story.md includes actor, need, and value
+      - acceptance-criteria.md includes clear and testable points
+      - clarification.md still provides enough context for review
+      - missing business rules are visible as facts, assumptions, or open questions
+      - BRD and FRS stay aligned with the requirement
+      - feature-list.md exists when the requirement needs product structuring
+    pass_when: The BA bundle is complete enough for stakeholder review.
+    fail_action: Add missing items to review-notes.md and ask for clarification before refinement.
+  - checkpoint: before-final-review
+    validator: consistency-checker
+    checks:
+      - acceptance criteria are testable and observable
+      - user-story.md and acceptance-criteria.md describe the same business intent
+      - feature-list.md aligns with BRD and FRS
+      - BPMN Mermaid and feature-list.md do not conflict
+      - review-notes.md highlights any mismatch or low-confidence area
+    pass_when: The BA bundle is aligned and practical for stakeholder review.
+    fail_action: Mark the bundle as needs-review and explain the mismatch in review-notes.md.
+  - checkpoint: before-save
+    validator: template-checker
+    checks:
+      - each file uses readable Markdown headings
+      - expected sections are present
+      - final bundle is editable by business users
+    pass_when: The output bundle follows the expected Markdown structure.
+    fail_action: Mark the output as needs-review before it is shared.
+expected_markdown_outputs:
+  - file: clarification.md
+    purpose: Explain the requirement in a clearer business structure.
+    required_sections:
+      - Summary
+      - Known Facts
+      - Assumptions
+      - Open Questions
+      - Next Actions
+  - file: user-story.md
+    purpose: Provide a simple business-friendly user story draft.
+    required_sections:
+      - Story
+      - Context
+      - Dependencies
+  - file: process-bpmn.md
+    purpose: Provide a BPMN-style business flow in Mermaid syntax.
+    required_sections:
+      - Mermaid Diagram
+  - file: acceptance-criteria.md
+    purpose: Capture testable business acceptance points.
+    required_sections:
+      - Criteria
+  - file: brd.md
+    purpose: Give stakeholders a business-facing requirement document.
+    required_sections:
+      - Business Problem
+      - Business Goals
+      - Stakeholders
+      - Scope
+      - Business Rules
+      - Assumptions
+      - Expected Benefits
+  - file: frs.md
+    purpose: Give the team an agile-style functional requirement specification.
+    required_sections:
+      - Functional Summary
+      - Actors
+      - Functional Requirements
+      - Main Flow
+      - Alternative Flows
+      - Business Rules
+      - Validations
+      - Edge Cases
+      - Dependencies
+      - Open Questions
+  - file: feature-list.md
+    purpose: Give the team a BA-owned feature hierarchy and scope structure.
+    required_sections:
+      - Level 1 Feature
+      - Level 2 Feature
+      - Level 3 Feature
+  - file: review-notes.md
+    purpose: Summarize validation findings and next actions.
+    required_sections:
+      - Validation Status
+      - Ambiguity Checker
+      - Completeness Checker
+      - Consistency Checker
+      - Template Checker
+      - Suggested Next Step
+# TODO: Add retry guidance when one validator fails.

@@ -1,0 +1,123 @@
+scenario_name: loyalty
+domain: loyalty
+business_problem: Members contact support because points, tier progress, and activity are not clear enough.
+functional_summary: The portal must show available points, tier progress, and recent loyalty activity for the current member.
+business_goals:
+  - Reduce avoidable loyalty support calls.
+  - Improve member confidence in points and tier visibility.
+  - Deliver a focused first dashboard release.
+scope:
+  - Show available points, tier progress, and recent activity in one view.
+  - Separate available values from expired/unavailable values.
+  - Show guidance when data is delayed or missing.
+default_business_rules:
+  - Only posted transactions can add to available points.
+  - Expired points must be shown separately.
+  - Tier progress follows approved membership rules.
+  - Pending activity must not affect available points until posted.
+main_flow:
+  - Member opens loyalty overview page.
+  - System loads points, tier progress, and recent activity.
+  - System displays loyalty summary.
+alternative_flows:
+  - If loyalty data is delayed, show guidance and hide incomplete totals.
+  - If activity data is missing, show placeholder and support path.
+  - If member account is invalid, show access error message.
+functional_requirements:
+  - FR-1: Member can view available points for current account.
+  - FR-2: System displays current tier and progress to next tier.
+  - FR-3: Page displays recent loyalty activity.
+  - FR-4: Page displays guidance when data is unavailable or delayed.
+validations:
+  - Show only current member's loyalty data.
+  - Separate available and expired points clearly.
+  - Keep tier wording aligned with approved labels.
+edge_cases:
+  - Delayed loyalty data from source.
+  - Pending transactions not yet posted.
+  - Expired points present in account.
+  - Invalid member account access attempt.
+dependencies:
+  - Loyalty data service is available.
+  - Tier and point rules are approved.
+acceptance_criteria:
+  - Given member opens loyalty page, when data is available, then available points are shown.
+  - Given loyalty data is available, when page loads, then current tier and progress are shown.
+  - Given activity data is available, when member views page, then recent activity is displayed.
+  - Given loyalty data is missing or delayed, when page loads, then guidance message is displayed.
+feature_list:
+  - level_1: Loyalty Overview
+    level_2:
+      - name: Points Visibility
+        level_3:
+          - Show Available Points
+          - Show Expired Points Separately
+      - name: Tier Progress
+        level_3:
+          - Show Current Tier
+          - Show Progress Toward Next Tier
+  - level_1: Activity History
+    level_2:
+      - name: Member Activity
+        level_3:
+          - Show Recent Loyalty Transactions
+          - Explain Missing Or Delayed Activity
+bpmn_steps:
+  - flowchart TD
+  - "    A[Start] --> B[Member opens loyalty page]"
+  - "    B --> C[System loads points and tier data]"
+  - "    C --> D{Valid loyalty data available?}"
+  - "    D -->|Yes| E[Show points, tier progress, and activity]"
+  - "    D -->|No| F[Show guidance for missing or delayed data]"
+  - "    E --> G[End]"
+  - "    F --> G[End]"
+story_text: As a {user_role}, I want to view my points and tier progress clearly so that I understand my loyalty status without contacting support.
+uxui_defaults:
+  screen_goal: Help the member understand points, tier progress, and recent activity in one place.
+  main_sections:
+    - Header
+    - Member summary
+    - Points balance
+    - Tier progress
+    - Recent activity
+    - Help section
+  components:
+    - Member overview card
+    - Available points panel
+    - Tier progress panel
+    - Recent transactions list
+    - Missing data guidance
+  interaction_notes:
+    - Keep available points and expired points separate.
+    - Make tier progress easy to scan.
+    - Show clear guidance when data is delayed.
+  wireframe_sketch:
+    - "+--------------------------------------+"
+    - "| Header                               |"
+    - "+--------------------------------------+"
+    - "| Member Summary                       |"
+    - "+--------------------------------------+"
+    - "| Points Balance And Tier Progress     |"
+    - "+--------------------------------------+"
+    - "| Recent Activity                      |"
+    - "+--------------------------------------+"
+    - "| Help / Data Guidance                 |"
+    - "+--------------------------------------+"
+fe_defaults:
+  intro: Simple FE demo generated from loyalty scenario defaults.
+  cards:
+    - title: Member Summary
+      lines:
+        - "<strong>Member:</strong> Example Member"
+        - "<strong>Current Tier:</strong> Gold"
+    - title: Available Points
+      status: 12,450 Points
+      lines:
+        - The member can see the latest available loyalty balance.
+    - title: Tier Progress
+      list:
+        - Current tier: Gold
+        - Points to next tier: 2,550
+    - title: Need Help?
+      lines:
+        - If data is delayed or missing, show guidance and support path.

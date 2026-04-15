@@ -1,0 +1,127 @@
+scenario_name: ticketing
+domain: ticketing
+business_problem: Customers call support because ticket change rules and next steps are not clear online.
+functional_summary: The portal must guide customers through booking change eligibility, fees, and next steps.
+business_goals:
+  - Reduce avoidable booking-change support calls.
+  - Help customers understand ticket change rules earlier.
+  - Deliver a focused first self-service release.
+scope:
+  - Show booking change eligibility and first supported change path.
+  - Display change fees before confirmation.
+  - Guide users to support/refund when online change is not allowed.
+default_business_rules:
+  - Only eligible tickets can be changed online.
+  - Show change fees before final confirmation.
+  - Refund or reissue steps must follow approved fare rules.
+  - Show ineligibility reason and next support path when change is not allowed.
+main_flow:
+  - Customer opens booking change page.
+  - System checks change eligibility for selected booking.
+  - System shows available change options and fee.
+  - Customer confirms change.
+  - System updates booking and displays confirmation.
+alternative_flows:
+  - If booking is not eligible, show reason and support/refund path.
+  - If fare rules cannot be loaded, show fallback message and stop change flow.
+  - If change fee is zero, still show final confirmation step.
+functional_requirements:
+  - FR-1: User can open booking change page and review eligibility.
+  - FR-2: System displays allowed change options and related fee before confirmation.
+  - FR-3: Page displays support/refund guidance when booking is not eligible.
+  - FR-4: Page blocks access to another customer's booking.
+validations:
+  - Show only valid options for selected booking.
+  - Show fee details before confirmation.
+  - Do not expose another customer's booking data.
+edge_cases:
+  - Booking not eligible for online change.
+  - Fare rules service unavailable.
+  - Zero fee change still needs confirmation.
+  - Unauthorized booking access attempt.
+dependencies:
+  - Booking rules service is available.
+  - Fare/refund policy is approved.
+acceptance_criteria:
+  - Given customer opens change page, when eligibility check runs, then system shows if booking can be changed online.
+  - Given booking is eligible, when options are displayed, then change fee is shown before confirmation.
+  - Given booking is not eligible, when customer opens page, then support/refund guidance is displayed.
+  - Given booking does not belong to customer, when they access page, then access is blocked.
+feature_list:
+  - level_1: Booking Management
+    level_2:
+      - name: Change Eligibility
+        level_3:
+          - Check Whether Ticket Can Be Changed Online
+          - Show Why Booking Is Not Eligible
+      - name: Ticket Modification
+        level_3:
+          - Show Available Change Options
+          - Show Change Fee Before Confirmation
+  - level_1: Support Guidance
+    level_2:
+      - name: Fallback Handling
+        level_3:
+          - Show Support Path When Change Is Not Allowed
+          - Explain Refund Or Reissue Next Step
+bpmn_steps:
+  - flowchart TD
+  - "    A[Start] --> B[Customer opens booking change page]"
+  - "    B --> C[System checks booking eligibility]"
+  - "    C --> D{Online change allowed?}"
+  - "    D -->|Yes| E[Show change options and fees]"
+  - "    D -->|No| F[Show support or refund guidance]"
+  - "    E --> G[Customer confirms change]"
+  - "    G --> H[System updates booking]"
+  - "    F --> I[End]"
+  - "    H --> I[End]"
+story_text: As a {user_role}, I want to change my booking in a guided self-service flow so that I do not need to contact support for common ticket changes.
+uxui_defaults:
+  screen_goal: Help customers understand booking change eligibility, fees, and next steps.
+  main_sections:
+    - Header
+    - Booking summary
+    - Eligibility check
+    - Change options
+    - Fee review
+    - Help section
+  components:
+    - Booking reference summary
+    - Eligibility banner
+    - Change options list
+    - Fee summary panel
+    - Support guidance message
+  interaction_notes:
+    - Show eligibility before deeper actions.
+    - Keep fee information visible before confirmation.
+    - Show support guidance when online change is not allowed.
+  wireframe_sketch:
+    - "+--------------------------------------+"
+    - "| Header                               |"
+    - "+--------------------------------------+"
+    - "| Booking Summary                      |"
+    - "+--------------------------------------+"
+    - "| Eligibility And Fee Review           |"
+    - "+--------------------------------------+"
+    - "| Change Options                       |"
+    - "+--------------------------------------+"
+    - "| Help / Support Guidance              |"
+    - "+--------------------------------------+"
+fe_defaults:
+  intro: Simple FE demo generated from booking-change scenario defaults.
+  cards:
+    - title: Booking Summary
+      lines:
+        - "<strong>Booking:</strong> BK-2048"
+        - "<strong>Traveler:</strong> Example Customer"
+    - title: Eligibility
+      status: Eligible To Change
+      lines:
+        - The selected booking can be changed online.
+    - title: Fee Review
+      list:
+        - Change fee: $25
+        - Fare difference: $10
+    - title: Need Help?
+      lines:
+        - If booking is not eligible, continue to support or refund guidance.

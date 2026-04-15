@@ -1,0 +1,98 @@
+name: backlog-refinement
+purpose: Turn a clarified backlog item from the selected project into a Markdown package for refinement discussion.
+input_type: projects/<project-name>/01-input/requirements/*.md or projects/<project-name>/01-input/notes/meeting-notes/*.md
+rules:
+  - Start with one backlog item or one focused requirement note.
+  - Keep the story and criteria small enough for one refinement discussion.
+  - Make prioritization reasoning visible, especially when confidence is low.
+  - Save the final package as Markdown files only.
+  - BA Agent owns prioritization support and feature grouping in this playbook.
+  - Use the selected project's knowledge and config before shared fallback context.
+steps:
+  - order: 1
+    step: collect-backlog-context
+    description: Read the item, notes, and dependencies.
+  - order: 2
+    step: draft-user-story
+    description: Use the User Story Writer skill.
+  - order: 3
+    step: draft-acceptance-criteria
+    description: Use the Acceptance Criteria Writer skill.
+  - order: 4
+    step: prioritize-item
+    description: Use the Prioritization Helper skill through the BA Agent.
+  - order: 5
+    step: validate-alignment
+    description: Check whether story, criteria, and priority match.
+  - order: 6
+    step: write-markdown-output
+    description: Save the final Markdown review package.
+decision_logic:
+  - id: story-too-large
+    when: The backlog item describes several different outcomes or many unrelated business goals.
+    then: Split the story into a smaller first slice before refinement continues.
+    why: Smaller stories are easier for BA and delivery teams to review together.
+    markdown_effect: review-notes.md must explain that the item should be split.
+  - id: unclear-acceptance-rules
+    when: Acceptance criteria are vague, not testable, or depend on hidden assumptions.
+    then: Rewrite the criteria in clearer business language and add open points to review-notes.md.
+    why: Weak criteria create confusion later in planning and delivery.
+    markdown_effect: acceptance-criteria.md should stay testable and review-notes.md should capture unresolved points.
+  - id: weak-priority-confidence
+    when: The team does not have enough confidence in effort, value, or urgency.
+    then: Keep the prioritization lightweight and clearly mark assumptions.
+    why: A rough priority is still useful, but it should not look more certain than it is.
+    markdown_effect: review-notes.md must say what assumptions may change the priority later.
+  - id: story-criteria-mismatch
+    when: The user story, criteria, and priority note do not describe the same business intent.
+    then: Treat the package as needs-review and fix alignment before saving.
+    why: A mismatched backlog package causes confusion in refinement sessions.
+    markdown_effect: review-notes.md must call out the mismatch clearly.
+skills_used:
+  - user-story-writer
+  - acceptance-criteria-writer
+  - prioritization-helper
+validation_checkpoints:
+  - checkpoint: after-story-draft
+    validator: completeness-checker
+    checks:
+      - user-story.md includes actor, need, and value
+      - the story describes one main outcome
+      - dependencies or important notes are visible
+    pass_when: The story is clear enough for a refinement discussion.
+    fail_action: Ask for a smaller scope or missing context in review-notes.md.
+  - checkpoint: after-criteria-draft
+    validator: consistency-checker
+    checks:
+      - acceptance-criteria.md matches the story intent
+      - criteria are testable and business-readable
+      - no major conflict exists between scope and expected outcome
+    pass_when: The story and criteria describe the same outcome.
+    fail_action: Mark the bundle as needs-review and explain the conflict in review-notes.md.
+  - checkpoint: before-save
+    validator: completeness-checker
+    checks:
+      - required Markdown files are present
+      - review notes explain any low-confidence priority or unresolved questions
+      - the package is usable in a BA-led refinement session
+    pass_when: The saved output is complete enough for backlog review.
+    fail_action: Keep the output as draft-only and list what must be improved first.
+expected_markdown_outputs:
+  - file: user-story.md
+    purpose: Provide the backlog item in a standard business-friendly story format.
+    required_sections:
+      - Story
+      - Context
+      - Dependencies
+  - file: acceptance-criteria.md
+    purpose: Capture testable business acceptance points for the backlog item.
+    required_sections:
+      - Criteria
+  - file: review-notes.md
+    purpose: Explain validation findings, priority assumptions, and next refinement actions.
+    required_sections:
+      - Validation Status
+      - Consistency Checker
+      - Completeness Checker
+      - Suggested Next Step
+# TODO: Add optional release planning notes for grouped backlog items.

@@ -4,43 +4,53 @@
 
 This project focuses on improving the loyalty dashboard experience for members.
 
+## Start Here
+
+- `03-guides/README.md`
+
 ## Current Scope
 
 The first scope is a clearer web view for points, tier progress, and recent loyalty activity.
 
 ## Where Inputs Are Stored
 
-- `projects/loyalty-feature-expansion/inputs/requirements/`
-- `projects/loyalty-feature-expansion/inputs/meeting-notes/`
-- `projects/loyalty-feature-expansion/inputs/raw/`
+- `projects/loyalty-feature-expansion/01-input/requirements/`
+- `projects/loyalty-feature-expansion/01-input/notes/meeting-notes/`
+- `projects/loyalty-feature-expansion/01-input/assets/raw/`
 
-## Where Outputs Are Stored
+## Where Main Outputs Are Stored
 
-- `projects/loyalty-feature-expansion/outputs/generated/`
+- `projects/loyalty-feature-expansion/02-output/ba/`
+- `projects/loyalty-feature-expansion/02-output/design/`
+- `projects/loyalty-feature-expansion/02-output/fe/`
 
 ## Knowledge Files
 
-- `knowledge/glossary.md`
-- `knowledge/business-rules.md`
-- `knowledge/notes.md`
+- `04-knowledge/glossary.md`
+- `04-knowledge/business-rules.md`
+- `04-knowledge/notes.md`
 
-## Project Management Files
+## Deep Ops Files
 
-- `status.md`
-- `decision-log.md`
-- `task-tracker.md`
-- `change-log.md`
-- `dependency-map.md`
+- `_ops/status.md`
+- `_ops/decision-log.md`
+- `_ops/task-tracker.md`
+- `_ops/change-log.md`
+- `_ops/dependency-map.md`
+- `_ops/project-flow.md`
+- `_ops/traceability/requirement-traceability-summary.md`
+- `_ops/runtime/id-registry.yaml`
+- `_ops/runtime/processing-state.yaml`
 
 What they do:
-- `status.md` shows overall progress and requirement status.
-- `decision-log.md` records key decisions and their impact.
-- `task-tracker.md` keeps a simple task board.
-- `change-log.md` tracks version updates for generated requirement outputs.
-- `dependency-map.md` shows prerequisite links (REQ -> FR -> FEAT) and downstream risks.
+- `_ops/status.md` shows overall progress and requirement status.
+- `_ops/decision-log.md` records key decisions and their impact.
+- `_ops/task-tracker.md` keeps a simple task board.
+- `_ops/change-log.md` tracks version updates for generated requirement outputs.
+- `_ops/dependency-map.md` shows prerequisite links (REQ -> FR -> FEAT) and downstream risks.
 
 Version file per requirement output:
-- `outputs/generated/<requirement-name>/version-info.md`
+- `_ops/generated/<requirement-name>/version-info.md`
 
 ## How To Run This Project
 

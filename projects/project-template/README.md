@@ -6,57 +6,76 @@ Use this folder as the starting point for a new project.
 
 This template helps you create a clean project workspace with:
 - project config
-- project inputs
-- project outputs
+- daily input/output surface
+- short user guides
 - project knowledge
-- project tracking files
-- project flow visual
-- requirement ID registry
+- deep ops/tracking/runtime files
 
-Tracking file purposes:
-- `status.md`: main progress snapshot for the project and each requirement
-- `decision-log.md`: key decisions with date, reason, and impact
+## Folder Layout
+
+- `01-input/`
+- `02-output/`
+- `03-guides/`
+- `04-knowledge/`
+- `_ops/`
+
+Inside `_ops/`:
+- `status.md`: main progress snapshot
+- `decision-log.md`: key decisions
 - `task-tracker.md`: lightweight task board
-- `change-log.md`: project-level version history for generated outputs
-- `dependency-map.md`: project-level requirement/FR/feature dependency view
-- `project-flow.md`: auto-generated visual flow for this project
-- `id-registry.yaml`: stores all IDs for REQ, BRD, FR, US, AC, FEAT, UI, RV, TC
+- `change-log.md`: project-level version history
+- `dependency-map.md`: dependency view
+- `project-flow.md`: auto-generated visual flow
+- `traceability/requirement-traceability-summary.md`
+- `runtime/id-registry.yaml`: artifact IDs
+- `runtime/processing-state.yaml`: incremental hash state
 
 ## What To Fill First
 
 1. `project-config.yaml`
-2. `status.md`
-3. `decision-log.md`
-4. `task-tracker.md`
-5. `change-log.md`
-6. `knowledge/business-rules.md`
-7. `knowledge/glossary.md`
-8. `projects/<project-name>/inputs/requirements/req-001.md`
+2. `03-guides/README.md`
+3. `04-knowledge/business-rules.md`
+4. `04-knowledge/glossary.md`
+5. `01-input/requirements/req-001.md`
+
+Scenario setup in `project-config.yaml`:
+- `scenario`: optional explicit scenario key (example: `ticketing`, `loyalty`, `order-status`, `generic`)
+- `domain`: used for automatic mapping when `scenario` is not set
+
+Fallback rule:
+1. use `scenario` if defined and valid
+2. else map by `domain`
+3. else fallback to `generic`
+
+Add a custom scenario later:
+- create a new YAML file under `system/scenarios/`
+- register it in `system/scenarios/scenario-catalog.yaml`
+- set `scenario: <your-scenario-key>` in project config
 
 ## Where Things Go
 
-- requirements: `projects/<project-name>/inputs/requirements/`
-- meeting notes: `projects/<project-name>/inputs/meeting-notes/`
-- raw text: `projects/<project-name>/inputs/raw/`
-- generated output: `projects/<project-name>/outputs/generated/`
-- project knowledge: `projects/<project-name>/knowledge/`
-- project status: `status.md`
-- project decisions: `decision-log.md`
-- project tasks: `task-tracker.md`
-- project changes: `change-log.md`
+- requirements: `projects/<project-name>/01-input/requirements/`
+- meeting notes: `projects/<project-name>/01-input/notes/meeting-notes/`
+- raw text: `projects/<project-name>/01-input/assets/raw/`
+- curated BA output: `projects/<project-name>/02-output/ba/`
+- curated design output: `projects/<project-name>/02-output/design/`
+- curated FE output: `projects/<project-name>/02-output/fe/`
+- project knowledge: `projects/<project-name>/04-knowledge/`
+- deep generated runtime output: `projects/<project-name>/_ops/generated/`
+- project tracking and governance: `projects/<project-name>/_ops/`
 
 ## How To Run
 
 After you copy and rename this folder:
 
 ```bash
-python3 app.py --project <new-project-name> --input req-001.md
+python3 app.py --project <new-project-name> --requirement req-001.md
 ```
 
 After run:
-- requirement version info: `outputs/generated/<requirement-name>/version-info.md`
-- project change history: `change-log.md`
-- project dependency view: `dependency-map.md`
+- requirement version info: `_ops/generated/<requirement-name>/version-info.md`
+- project change history: `_ops/change-log.md`
+- project dependency view: `_ops/dependency-map.md`
 - artifact governance files: `artifact-status.md`, `artifact-checklist.md`, `gate-report.md`
 
 <!-- TODO: Add a simple naming rule for project folders and requirement files. -->

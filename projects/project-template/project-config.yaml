@@ -3,6 +3,7 @@ description: Replace this with a short project description
 owner: Replace this with the project owner
 default_playbook: product-development
 domain: replace-this-domain
+scenario: generic
 created_date: 2026-04-13
 active_agents:
   - ba-agent

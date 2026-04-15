@@ -1,304 +1,250 @@
-# Project-Based BA-Led Agent Framework
+# 2B Agents
 
-This workspace is a reusable AI agent framework for BA-led product work.
+BA/PO agent framework with a project-first execution model and a clean 3-layer structure.
 
-It helps a Business Analyst or Product Owner user work with:
-- requirement clarification
-- BPMN-style process drafting in Mermaid
-- user story generation
-- acceptance criteria writing
-- BRD drafting
-- agile-style FRS drafting
-- feature hierarchy and feature list generation
-- wireframe drafting
-- frontend HTML demo generation
-- review and validation
-- playbook orchestration
-- project knowledge reuse
+## 3-Layer Structure
 
-## Two Simple Layers
+1. `projects/`
+- Project-specific workspaces and data
+- Daily input/output surface plus project knowledge and deep ops governance
 
-This workspace now has two clear layers:
+2. `system/`
+- Shared engine and reusable assets
+- Agents, artifacts, configs, playbooks, prompts, tools, validators, templates, shared knowledge, tests
 
-1. System-level folders
-- reusable parts such as `agents/`, `skills/`, `playbooks/`, `validators/`, `prompts/`, `tools/`, `templates/`, and shared `knowledge/`
+3. `workspace/`
+- Cross-project operational layer
+- Dashboard, visuals, logs, and refactor reports
 
-2. Project-level folders
-- real working data under `projects/<project-name>/`
-- each project keeps its own inputs, outputs, knowledge, config, and README
-
-## Why This Helps
-
-- each project keeps its own files in one place
-- input and output are easier to control in VS Code
-- project knowledge stays close to the real work
-- the reusable system stays simple
-
-## Main Project Folder
-
-Each project now follows this pattern:
+## Top-Level Layout
 
 ```text
-projects/<project-name>/
-  README.md
-  project-config.yaml
-  status.md
-  decision-log.md
-  task-tracker.md
-  projects/<project-name>/inputs/
-    requirements/
-    meeting-notes/
-    raw/
-  projects/<project-name>/outputs/
-    generated/
-  knowledge/
-    glossary.md
-    business-rules.md
-    notes.md
+2B Agents/
+├── projects/
+├── system/
+├── workspace/
+├── app.py
+├── README.md
+└── architecture.md
 ```
 
-## Main Folders
+## Setup
 
-System-level folders:
-- `agents/`: role-based agent definitions
-- `skills/`: reusable BA-led analysis and product-structuring skills
-- `knowledge/`: shared fallback knowledge for all projects
-- `playbooks/`: reusable end-to-end processes
-- `tools/`: simple local-first file utilities and future placeholders
-- `validators/`: quality checks
-- `prompts/`: prompt guidance for agents and skills
-- `configs/`: system-wide model, routing, permissions, and template settings
-- `templates/`: business document templates
-- `tests/`: simple manual testing notes
-- `logs/`: space for future run notes
-
-Project-level folder:
-- `projects/`: real project workspaces with separate inputs, outputs, knowledge, config, and project management files
-
-Root-level input/output folders no longer exist.
-All real work happens only inside `projects/<project-name>/`.
-
-## Project Tracking Files
-
-Each project includes three simple tracking files:
-- `status.md`: the main progress snapshot for the project and each requirement
-- `decision-log.md`: key decisions with date, reason, and impact
-- `task-tracker.md`: a lightweight Markdown task board
-- `change-log.md`: project-level revision history for output changes
-
-## Project Dashboard
-
-The workspace also includes:
-- `projects/dashboard.md` for a Markdown overview
-- `projects/dashboard.html` for a simple web view
-
-Use Markdown inside VS Code, and HTML if you want a browser view.
-
-The HTML dashboard includes:
-- summary metric cards
-- filters and search
-- project table with progress bars
-- project cards and blocked list
-
-## Visual System Maps
-
-Open these in VS Code to understand the flow visually:
-- [system-flow.md](/Users/macbookair/2B%20Agents/visuals/system-flow.md)
-- [agent-flow.md](/Users/macbookair/2B%20Agents/visuals/agent-flow.md)
-- [playbook-flow.md](/Users/macbookair/2B%20Agents/visuals/playbook-flow.md)
-
-## Project Flow Visuals
-
-Each project has an auto-generated `project-flow.md` that shows:
-- inputs and outputs
-- agent flow
-- traceability to outputs
-- status and dashboard updates
-
-Each processed requirement also generates:
-- `outputs/generated/<requirement-name>/requirement-flow.md`
-This shows the requirement-to-output flow with Mermaid diagrams.
-
-## Context Pack (Token Saving)
-
-Use the `context/` folder to avoid repeating long project history in prompts.
-
-- Fast load: `context/context-summary.md`
-- Deep load: `context/full-context.md`
-- Focused load: one file such as `context/id-system.md`
-- Loader utility: `tools/context/context_loader.py`
-
-Prompt example:
-- `Read context/context-summary.md and process requirement req-001 in project ticket-booking-improvement.`
-
-Best practice:
-- Use summary for routine generation.
-- Use full context only for broad redesign/debug tasks.
-- Use specific context files for focused requests (IDs, traceability, tests, risks).
-
-## Auto Context Injection
-
-Context is auto-loaded during `app.py` runs. You do not need to write manual context-loading prompts.
-
-Auto-loaded global context:
-- `context/context-summary.md`
-- `context/workflow-playbook.md`
-- `context/output-standards.md`
-- `context/id-system.md`
-- `context/traceability-rules.md`
-
-Auto-loaded project context:
-- `projects/<project-name>/knowledge/glossary.md`
-- `projects/<project-name>/knowledge/business-rules.md`
-- `projects/<project-name>/knowledge/notes.md`
-
-Optional context load audit:
-- `logs/context-load.log`
-
-Traceability outputs:
-- `outputs/generated/<requirement-name>/requirement-traceability-matrix.md`
-- `outputs/generated/<requirement-name>/requirement-traceability-flow.md`
-- `requirement-traceability-summary.md` at the project root
-
-Test case outputs:
-- `outputs/generated/<requirement-name>/test-cases.md` (generated from FRS, user story, and acceptance criteria)
-- TC IDs link to AC/US/FR IDs inside the test case matrix
-
-Artifact control outputs (for controlled mode):
-- `outputs/generated/<requirement-name>/artifact-status.md`
-- `outputs/generated/<requirement-name>/artifact-checklist.md`
-- `outputs/generated/<requirement-name>/gate-report.md`
-
-Dependency mapping output:
-- `projects/<project-name>/dependency-map.md` (project-level dependency table + Mermaid graph + downstream risk notes)
-
-Versioning outputs:
-- `projects/<project-name>/change-log.md` stores project-level revisions
-- `projects/<project-name>/outputs/generated/<requirement-name>/version-info.md` stores requirement-level version details
-- first generation starts at `v1.0`
-- meaningful regeneration increments to `v1.1`, `v1.2`, and so on
-- larger structural updates can move to a new major version (for example `v2.0`)
-
-Requirement ID system:
-- `id-registry.yaml` inside each project stores IDs for REQ, BRD, FR, US, AC, FEAT, UI, RV, TC
-- each requirement input file gets a `# Requirement ID: REQ-001` header
-
-ID rules (zero-padded):
-- REQ-001, BRD-001, FR-001, US-001, AC-001, FEAT-001, UI-001, RV-001, TC-001
-
-## Example Projects
-
-This workspace includes:
-- `projects/ticket-booking-improvement/`
-- `projects/loyalty-feature-expansion/`
-- `projects/project-template/`
-
-## Quick Start
-
-Run all projects automatically:
+Install dependencies:
 
 ```bash
-python3 app.py
+pip install -r requirements.txt
 ```
 
-Run one project only:
+## Python Environment (.venv)
+
+This workspace uses a local virtual environment at `.venv/`.
+
+If `.venv` is missing, recreate it:
 
 ```bash
-python3 app.py --project ticket-booking-improvement
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
 ```
 
-Re-run all requirements in one project:
+Run app with local venv Python:
 
 ```bash
-python3 app.py --project ticket-booking-improvement --force
+.venv/bin/python app.py
 ```
 
-Run controlled mode (next runnable artifact only):
+Colored terminal output now uses `rich` for:
+- running steps (`INFO`, cyan/blue)
+- success (`SUCCESS`, green)
+- warning/skip/blocked (`WARNING`, yellow)
+- errors (`ERROR`, red)
+- structured run labels such as `[PROJECT]`, `[INPUT]`, and stage/agent `[BA/ba-core]`
 
+## Quick Setup (Non-Technical)
+
+Run these commands in this exact order from the project folder (`2B Agents`):
+
+1. Install dependency:
 ```bash
-python3 app.py --project ticket-booking-improvement --mode controlled
+pip install -r requirements.txt
 ```
 
-Run one specific artifact in controlled mode:
+Successful result should include lines like:
+- `Successfully installed rich ...`
+or
+- `Requirement already satisfied: rich ...`
 
-```bash
-python3 app.py --project ticket-booking-improvement --input req-001.md --mode controlled --artifact frs.md
-```
-
-Require upstream approvals before downstream artifact runs:
-
-```bash
-python3 app.py --project ticket-booking-improvement --input req-001.md --mode controlled --artifact wireframe.md --require-approval
-```
-
-Approve one artifact after review:
-
-```bash
-python3 app.py --project ticket-booking-improvement --input req-001.md --approve frs.md
-```
-
-Refresh the dashboard:
-
+2. Test dashboard command (quick check):
 ```bash
 python3 app.py --dashboard
 ```
 
-## What The Demo Does
+Successful output should look like:
+- `=== 2B Agents Pipeline ===`
+- `[SUCCESS] Dashboard updated: .../workspace/dashboard.md`
+- `[SUCCESS] HTML dashboard generated: .../workspace/dashboard.html`
 
-The automated flow in `app.py`:
-- scans all projects under `projects/`
-- reads all requirement files from `projects/<project-name>/inputs/requirements/`
-- loads that project's `project-config.yaml`
-- loads that project's knowledge first
-- uses shared knowledge only as fallback
-- runs the BA Agent outputs including feature list creation
-- runs the UXUI Agent wireframe step
-- runs the FE Agent HTML step
-- runs validators
-- supports controlled artifact-by-artifact execution with gate checks
-- updates artifact status/checklist/gate report in controlled governance mode
-- updates version tracking (`version-info.md` + `change-log.md`) on generation/regeneration
-- refreshes project dependency mapping in `dependency-map.md`
-- updates `status.md` for the processed requirement
-- writes output into `projects/<project-name>/outputs/generated/<input-name>/`
+3. Test one project run:
+```bash
+python3 app.py --project ticket-booking-improvement --requirement req-001.md
+```
 
-The dashboard flow:
-- reads each project's `status.md`
-- regenerates `projects/dashboard.md`
-- generates `projects/dashboard.html`
+Successful output should include:
+- `=== Project: ticket-booking-improvement ===`
+- `[INFO] New input detected ...` or `[INFO] Changed input detected ...`
+- `[SUCCESS] ...` or `[WARNING] Unchanged input skipped ...`
 
-## Prompt vs Playbook vs Project
+4. (Optional) Test context sync:
+```bash
+python3 app.py --sync-context
+```
 
-- Prompt: instruction for one task
-- Playbook: reusable end-to-end process
-- Project: container for one real piece of work with its own inputs, outputs, config, and knowledge
+Successful output should include:
+- `[SUCCESS] Context sync completed.`
+- `[INFO] Report: .../system/context/context-sync-report.md`
 
-## Practical Example
+## Project-Based Execution (Unchanged)
 
-Example input:
-- `projects/ticket-booking-improvement/inputs/requirements/req-001.md`
+- Read inputs from `projects/<project-name>/01-input/...`
+- Write internal generated outputs to `projects/<project-name>/_ops/generated/...`
+- Curate user-facing outputs into `projects/<project-name>/02-output/...`
+- Keep tracking and traceability in `projects/<project-name>/_ops/...`
+- Orchestrate from root `app.py` using shared logic in `system/`
 
-Example output folder:
-- `projects/ticket-booking-improvement/outputs/generated/req-001/`
+## Scenario Engine (Config-Based)
 
-Example generated files:
-- `clarification.md`
-- `process-bpmn.md`
-- `user-story.md`
-- `acceptance-criteria.md`
-- `brd.md`
-- `frs.md`
-- `feature-list.md`
-- `wireframe.md`
-- `review-notes.md`
-- `ui.html`
+Scenario logic is now configuration-driven and loaded from:
+- `system/scenarios/scenario-catalog.yaml`
+- `system/scenarios/*.yaml`
+- Guide: `system/scenarios/README.md`
+
+Resolution order per project:
+1. `project-config.yaml` -> `scenario` (if valid)
+2. else map `domain` via scenario catalog
+3. else fallback to `generic`
+
+This means new projects can use existing scenarios without editing `app.py`.
+
+To add a new scenario:
+1. add `system/scenarios/<name>.yaml`
+2. register it in `system/scenarios/scenario-catalog.yaml`
+3. set `scenario: <name>` in project `project-config.yaml`
+
+## Automatic Incremental Processing
+
+Default command:
+```bash
+python3 app.py
+```
+
+By default, the runner now:
+- scans all valid projects
+- scans all files in `projects/<project-name>/01-input/requirements/`
+- processes only `new` and `changed` files
+- skips `unchanged` files
+
+How detection works:
+- file hash is calculated from file content (SHA-256)
+- if file is not in processing state -> `new`
+- if hash changed -> `changed`
+- if hash unchanged -> `unchanged`
+- if `--force` is used -> reprocess anyway
+
+Processing state is stored in:
+- `projects/<project-name>/_ops/runtime/processing-state.yaml`
+
+## Beginner Workflow (No app.py edits needed)
+
+1. Create a project from `projects/project-template/`.
+2. Put requirement files in `projects/<project-name>/01-input/requirements/`.
+3. Run:
+```bash
+python3 app.py
+```
+4. Review outputs in `projects/<project-name>/02-output/`.
+5. If a requirement changes, run `python3 app.py` again.
+Only changed/new files are regenerated.
+
+## Dashboard & Visuals
+
+- Markdown dashboard: `workspace/dashboard.md`
+- HTML dashboard: `workspace/dashboard.html`
+
+Visual references:
+- [System Flow](workspace/visuals/system-flow.md)
+- [Agent Flow](workspace/visuals/agent-flow.md)
+- [Playbook Flow](workspace/visuals/playbook-flow.md)
+
+## Context and Knowledge
+
+- Global context: `system/context/`
+- Shared knowledge: `system/knowledge/`
+- Project knowledge: `projects/<project-name>/04-knowledge/`
+
+Knowledge priority:
+1. project knowledge
+2. shared knowledge
+3. generic fallback
+
+## Quick Commands
+
+Run all projects:
+```bash
+python3 app.py
+```
+
+Run one project:
+```bash
+python3 app.py --project ticket-booking-improvement
+```
+
+Run one requirement:
+```bash
+python3 app.py --project ticket-booking-improvement --requirement req-001.md
+```
+
+Controlled mode (artifact + gate model):
+```bash
+python3 app.py --project ticket-booking-improvement --mode controlled
+```
+
+Run one stage:
+```bash
+python3 app.py --project ticket-booking-improvement --requirement req-001.md --stage ba-core
+```
+
+Run one artifact:
+```bash
+python3 app.py --project ticket-booking-improvement --requirement req-001.md --artifact frs
+```
+
+Refresh dashboard only:
+```bash
+python3 app.py --dashboard
+```
+
+Run safe context sync (Level 1):
+```bash
+python3 app.py --sync-context
+```
+
+## ID System
+
+Every requirement gets a `# Requirement ID: REQ-001` header and linked artifact IDs:
+- `REQ`, `BRD`, `FR`, `US`, `AC`, `FEAT`, `TC`, `UI`, `RV`
+- Zero-padded format, for example `REQ-001`, `FR-003`, `TC-010`
+
+## Example Projects
+
+- `projects/ticket-booking-improvement/`
+- `projects/loyalty-feature-expansion/`
+- `projects/project-template/`
 
 ## Start Here
 
-Open these files first:
-- `projects/README.md`
 - `README.md`
 - `architecture.md`
+- `projects/README.md`
 - `projects/project-template/README.md`
 
-<!-- TODO: Add a small starter checklist for creating a new project from the template. -->
+<!-- TODO: Add a short "new project onboarding" checklist in this README. -->

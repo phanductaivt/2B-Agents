@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loyalty Overview Expansion</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f4ef;
+      color: #1f1f1f;
+    }
+    .page {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 24px;
+    }
+    .hero {
+      background: #ffffff;
+      border: 1px solid #d8d2c8;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #d8d2c8;
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .status {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #d9ead3;
+      color: #245c2a;
+      font-weight: 700;
+    }
+    ul {
+      padding-left: 18px;
+    }
+  </style>
+</head>
+<body>
+  <!-- UI ID: UI-001 | FEAT ID: FEAT-001 | FR ID: FR-001 | REQ ID: REQ-001 -->
+  <main class="page">
+    <section class="hero">
+      <h1>Loyalty Overview Expansion</h1>
+      <p>Simple FE demo generated from loyalty scenario defaults.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Member Summary</h2>
+        <p><strong>Member:</strong> Example Member</p>
+        <p><strong>Current Tier:</strong> Gold</p>
+      </article>
+
+      <article class="card">
+        <h2>Available Points</h2>
+        <p class="status">12,450 Points</p>
+        <p>The member can see the latest available loyalty balance.</p>
+      </article>
+
+      <article class="card">
+        <h2>Tier Progress</h2>
+        <ul>
+          <li>{'Current tier': 'Gold'}</li>
+          <li>{'Points to next tier': '2,550'}</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h2>Need Help?</h2>
+        <p>If data is delayed or missing, show guidance and support path.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
