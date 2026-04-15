@@ -9,7 +9,6 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 PROJECTS_DIR = BASE_DIR / "projects"
 DEFAULT_PROJECT_NAME = "ticket-booking-improvement"
-ARTIFACT_CATALOG_PATH = BASE_DIR / "artifacts" / "artifact-catalog.yaml"
 
 
 def load_local_module(module_name: str, relative_path: str):
@@ -32,8 +31,7 @@ def parse_arguments() -> argparse.Namespace:
     """Parse simple CLI arguments for automated runs."""
     parser = argparse.ArgumentParser(description="Run the BA-led project pipeline.")
     parser.add_argument("--project", help="Run only one project by name.")
-    parser.add_argument("--input", help="(Legacy) Requirement file name in a project.")
-    parser.add_argument("--requirement", help="Requirement file name in a project (example: req-001.md).")
+    parser.add_argument("--input", help="Run only one requirement file name in a project.")
     parser.add_argument("--force", action="store_true", help="Re-run even if outputs exist.")
     parser.add_argument("--dashboard", action="store_true", help="Only refresh the dashboard.")
     parser.add_argument(
@@ -44,11 +42,25 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--artifact",
-        help="Artifact name for controlled mode (example: frs, wireframe, ui).",
+        help="Artifact file name for controlled mode (example: frs.md, wireframe.md, ui.html).",
     )
     parser.add_argument(
-        "--stage",
-        help="Stage name for controlled mode (example: clarification, ba-core, design, fe-prototype, review).",
+        "--require-approval",
+        action="store_true",
+        help="In controlled mode, require dependency approval before running downstream artifact.",
+    )
+    parser.add_argument(
+        "--auto-approve",
+        action="store_true",
+        help="Auto-mark generated artifact as Approved when gate passes.",
+    )
+    parser.add_argument(
+        "--approve",
+        help="Set one artifact approval to Approved for selected project/input (controlled governance).",
+    )
+    parser.add_argument(
+        "--reject",
+        help="Set one artifact approval to Rejected for selected project/input (controlled governance).",
     )
     return parser.parse_args()
 
@@ -1801,105 +1813,18 @@ def _post_generation_updates(
     )
     logging.info(f"Requirement flow updated: {requirement_flow_path}")
 
-    if (
-        "requirement-traceability-matrix.md" in markdown_written
-        or "requirement-traceability-flow.md" in markdown_written
-    ):
-        traceability_manager = load_local_module(
-            "traceability_manager", "tools/project/traceability_manager.py"
-        )
-        traceability_paths = traceability_manager.write_requirement_traceability(
-            project_dir=project_dir,
-            requirement_name=requirement_name,
-            input_file=input_file,
-            requirement_id=id_map["req"],
-            tc_ids=tc_ids,
-        )
-        for path in traceability_paths:
-            logging.info(f"Requirement traceability updated: {path}")
-
-
-def _normalize_artifact_name(name: str) -> str:
-    value = name.strip().lower()
-    mapping = {
-        "clarification.md": "clarification",
-        "clarification": "clarification",
-        "brd.md": "brd",
-        "brd": "brd",
-        "process-bpmn.md": "process-bpmn",
-        "process-bpmn": "process-bpmn",
-        "bpmn": "process-bpmn",
-        "frs.md": "frs",
-        "frs": "frs",
-        "user-story.md": "user-story",
-        "user-story": "user-story",
-        "acceptance-criteria.md": "acceptance-criteria",
-        "acceptance-criteria": "acceptance-criteria",
-        "feature-list.md": "feature-list",
-        "feature-list": "feature-list",
-        "wireframe.md": "wireframe",
-        "wireframe": "wireframe",
-        "ui.html": "ui",
-        "ui": "ui",
-        "review-notes.md": "review",
-        "review": "review",
-        "test-cases.md": "test-cases",
-        "test-cases": "test-cases",
-        "requirement-traceability-matrix.md": "requirement-traceability-matrix",
-        "requirement-traceability-matrix": "requirement-traceability-matrix",
-        "requirement-traceability-flow.md": "requirement-traceability-flow",
-        "requirement-traceability-flow": "requirement-traceability-flow",
-        "risk-notes.md": "risk-notes",
-        "risk-notes": "risk-notes",
-        "dependency-map.md": "dependency-map",
-        "dependency-map": "dependency-map",
-    }
-    return mapping.get(value, value)
-
-
-def _build_risk_notes_markdown(
-    project_name: str,
-    requirement_name: str,
-    requirement_id: str,
-    output_folder: Path,
-) -> str:
-    review_text = reader.read_text_if_exists(output_folder / "review-notes.md")
-    dependency_text = reader.read_text_if_exists(output_folder.parent.parent / "dependency-map.md")
-    risks: list[str] = []
-
-    if "Needs review" in review_text or "needs-review" in review_text.lower():
-        risks.append("Review notes indicate unresolved quality issues that may block downstream release.")
-    if "Missing:" in review_text:
-        risks.append("Some expected artifacts or sections are missing according to review notes.")
-    if "No high dependency risk detected" not in dependency_text and dependency_text.strip():
-        risks.append("Dependency map contains active dependency risks that should be handled before release.")
-    if not risks:
-        risks.append("No critical risk detected from current review and dependency artifacts.")
-
-    lines = [
-        "# Risk Notes",
-        "",
-        "## Overview",
-        f"- Project Name: {project_name}",
-        f"- Requirement Name: {requirement_name}",
-        f"- Requirement ID: {requirement_id}",
-        "",
-        "## Key Risks",
-    ]
-    for item in risks:
-        lines.append(f"- {item}")
-    lines.extend(
-        [
-            "",
-            "## Suggested Mitigations",
-            "- Re-run blocked or warning artifacts after clarification.",
-            "- Confirm dependency risks with BA and reviewer before final handoff.",
-            "",
-            "<!-- TODO: Add simple risk severity scoring (High/Medium/Low) per risk line. -->",
-            "",
-        ]
+    traceability_manager = load_local_module(
+        "traceability_manager", "tools/project/traceability_manager.py"
     )
-    return "\n".join(lines)
+    traceability_paths = traceability_manager.write_requirement_traceability(
+        project_dir=project_dir,
+        requirement_name=requirement_name,
+        input_file=input_file,
+        requirement_id=id_map["req"],
+        tc_ids=tc_ids,
+    )
+    for path in traceability_paths:
+        logging.info(f"Requirement traceability updated: {path}")
 
 
 def run_pipeline_for_input(
@@ -1909,7 +1834,8 @@ def run_pipeline_for_input(
     force: bool,
     mode: str = "full",
     artifact: str | None = None,
-    stage: str | None = None,
+    require_approval: bool = False,
+    auto_approve: bool = False,
 ) -> None:
     requirement_name = input_file.stem
     project_name = project_dir.name
@@ -1929,205 +1855,169 @@ def run_pipeline_for_input(
         markdown_files = generation["markdown_files"]
         html_files = generation["html_files"]
         version_manager = load_local_module("version_manager", "tools/project/version_manager.py")
-        artifact_runner = load_local_module("artifact_runner", "tools/project/artifact_runner.py")
-        dependency_manager = load_local_module("dependency_manager", "tools/project/dependency_manager.py")
-        traceability_manager = load_local_module(
-            "traceability_manager", "tools/project/traceability_manager.py"
-        )
 
-        catalog = artifact_runner.load_artifact_catalog(ARTIFACT_CATALOG_PATH)
-        catalog_index = artifact_runner.catalog_by_name(catalog)
-        status_path = artifact_runner.ensure_artifact_status(
+        artifact_control = load_local_module(
+            "artifact_control_manager", "tools/project/artifact_control_manager.py"
+        )
+        control_paths = artifact_control.ensure_artifact_control_files(
             project_dir=project_dir,
             requirement_name=requirement_name,
             requirement_id=id_map["req"],
-            catalog=catalog,
         )
-        logging.info(f"Artifact status ready: {status_path}")
-        checklist_path = artifact_runner.ensure_artifact_checklist(
-            project_dir=project_dir,
-            requirement_name=requirement_name,
-            requirement_id=id_map["req"],
-            catalog=catalog,
-        )
-        logging.info(f"Artifact checklist ready: {checklist_path}")
+        for path in control_paths:
+            logging.info(f"Artifact control file ready: {path}")
 
-        target_artifact = _normalize_artifact_name(artifact) if artifact else None
-        target_stage = stage.strip() if stage else None
-        execution_plan = artifact_runner.build_execution_plan(
-            catalog=catalog,
-            target_artifact=target_artifact,
-            target_stage=target_stage,
-        )
-
-        if mode == "controlled" and not artifact and not stage:
-            current_state = artifact_runner.parse_artifact_status(project_dir, requirement_name, catalog)
-            for candidate in execution_plan:
-                row = current_state.get(candidate, {})
-                if row.get("status") != "Done" or row.get("gate") != "Pass":
-                    execution_plan = artifact_runner.build_execution_plan(
-                        catalog=catalog, target_artifact=candidate, target_stage=None
-                    )
-                    break
-
-        markdown_written: dict[str, str] = {}
-        html_written: dict[str, str] = {}
-
-        for artifact_name in execution_plan:
-            artifact_state = artifact_runner.parse_artifact_status(project_dir, requirement_name, catalog)
-            item = catalog_index.get(artifact_name, {})
-
-            # Skip already completed artifact in non-force mode.
-            if (
-                artifact_state.get(artifact_name, {}).get("status") == "Done"
-                and artifact_state.get(artifact_name, {}).get("gate") == "Pass"
-                and not force
-            ):
-                continue
-
-            can_run, dependency_issues = artifact_runner.check_dependencies(
-                artifact_name=artifact_name,
-                catalog_index=catalog_index,
-                state=artifact_state,
+        if mode == "full":
+            changed_artifacts = version_manager.detect_artifact_changes(
+                output_dir=output_folder,
+                markdown_files=markdown_files,
+                html_files=html_files,
             )
-            if not can_run:
-                artifact_runner.set_blocked(artifact_state, artifact_name, dependency_issues)
-                artifact_runner.write_artifact_status(
-                    project_dir, requirement_name, id_map["req"], catalog, artifact_state
+            for filename, content in markdown_files.items():
+                writer.write_markdown_file(output_folder, filename, content)
+                artifact_control.record_artifact_result(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    requirement_id=id_map["req"],
+                    artifact_name=filename,
+                    content=content,
+                    auto_approve=auto_approve,
                 )
-                if mode == "controlled":
+
+            for filename, content in html_files.items():
+                writer.write_html_file(output_folder, filename, content)
+                artifact_control.record_artifact_result(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    requirement_id=id_map["req"],
+                    artifact_name=filename,
+                    content=content,
+                    auto_approve=auto_approve,
+                )
+
+            artifact_control.render_gate_report(
+                project_dir=project_dir,
+                requirement_name=requirement_name,
+                requirement_id=id_map["req"],
+            )
+
+            _post_generation_updates(
+                project_dir=project_dir,
+                input_file=input_file,
+                project_config=project_config,
+                generation=generation,
+                markdown_written=markdown_files,
+                html_written=html_files,
+                changed_artifacts=changed_artifacts,
+                is_new_output=not already_processed,
+                reason="Automated full-mode pipeline run from app.py",
+            )
+        else:
+            target_artifact = artifact
+            if not target_artifact:
+                target_artifact = artifact_control.get_next_runnable_artifact(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    require_approval=require_approval,
+                )
+                if not target_artifact:
                     message = (
-                        f"Blocked {project_name} / {input_file.name} / {artifact_name}: "
-                        + "; ".join(dependency_issues)
+                        f"No runnable artifact for {project_name} / {input_file.name}. "
+                        "All artifacts may already be done or blocked by gate dependencies."
                     )
                     print(message)
                     logging.info(message)
+                    artifact_control.render_gate_report(
+                        project_dir=project_dir,
+                        requirement_name=requirement_name,
+                        requirement_id=id_map["req"],
+                    )
                     return
-                continue
 
-            artifact_runner.set_in_progress(artifact_state, artifact_name)
-            artifact_runner.write_artifact_status(
-                project_dir, requirement_name, id_map["req"], catalog, artifact_state
+            can_run, issues = artifact_control.can_run_artifact(
+                project_dir=project_dir,
+                requirement_name=requirement_name,
+                artifact_name=target_artifact,
+                require_approval=require_approval,
             )
+            if not can_run and not force:
+                message = (
+                    f"Blocked {project_name} / {input_file.name} / {target_artifact}: "
+                    + "; ".join(issues)
+                )
+                print(message)
+                logging.info(message)
+                artifact_control.render_gate_report(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    requirement_id=id_map["req"],
+                )
+                return
 
-            generated_content = ""
-            if artifact_name == "clarification":
-                generated_content = str(markdown_files["clarification.md"])
-                writer.write_markdown_file(output_folder, "clarification.md", generated_content)
-                markdown_written["clarification.md"] = generated_content
-            elif artifact_name == "brd":
-                generated_content = str(markdown_files["brd.md"])
-                writer.write_markdown_file(output_folder, "brd.md", generated_content)
-                markdown_written["brd.md"] = generated_content
-            elif artifact_name == "process-bpmn":
-                generated_content = str(markdown_files["process-bpmn.md"])
-                writer.write_markdown_file(output_folder, "process-bpmn.md", generated_content)
-                markdown_written["process-bpmn.md"] = generated_content
-            elif artifact_name == "frs":
-                generated_content = str(markdown_files["frs.md"])
-                writer.write_markdown_file(output_folder, "frs.md", generated_content)
-                markdown_written["frs.md"] = generated_content
-            elif artifact_name == "user-story":
-                generated_content = str(markdown_files["user-story.md"])
-                writer.write_markdown_file(output_folder, "user-story.md", generated_content)
-                markdown_written["user-story.md"] = generated_content
-            elif artifact_name == "acceptance-criteria":
-                generated_content = str(markdown_files["acceptance-criteria.md"])
-                writer.write_markdown_file(output_folder, "acceptance-criteria.md", generated_content)
-                markdown_written["acceptance-criteria.md"] = generated_content
-            elif artifact_name == "feature-list":
-                generated_content = str(markdown_files["feature-list.md"])
-                writer.write_markdown_file(output_folder, "feature-list.md", generated_content)
-                markdown_written["feature-list.md"] = generated_content
-            elif artifact_name == "wireframe":
-                generated_content = str(markdown_files["wireframe.md"])
-                writer.write_markdown_file(output_folder, "wireframe.md", generated_content)
-                markdown_written["wireframe.md"] = generated_content
-            elif artifact_name == "ui":
-                generated_content = str(html_files["ui.html"])
-                writer.write_html_file(output_folder, "ui.html", generated_content)
-                html_written["ui.html"] = generated_content
-            elif artifact_name == "review":
-                generated_content = str(markdown_files["review-notes.md"])
-                writer.write_markdown_file(output_folder, "review-notes.md", generated_content)
-                markdown_written["review-notes.md"] = generated_content
-            elif artifact_name == "test-cases":
-                generated_content = str(markdown_files["test-cases.md"])
-                writer.write_markdown_file(output_folder, "test-cases.md", generated_content)
-                markdown_written["test-cases.md"] = generated_content
-            elif artifact_name == "requirement-traceability-matrix":
-                generated_content = traceability_manager.build_requirement_traceability_matrix(
+            markdown_written: dict[str, str] = {}
+            html_written: dict[str, str] = {}
+            if str(target_artifact).endswith(".html"):
+                if target_artifact not in html_files:
+                    raise ValueError(f"Artifact is not available: {target_artifact}")
+                content = html_files[target_artifact]
+                html_written[target_artifact] = content
+                changed_artifacts = version_manager.detect_artifact_changes(
+                    output_dir=output_folder,
+                    markdown_files=markdown_written,
+                    html_files=html_written,
+                )
+                writer.write_html_file(output_folder, target_artifact, content)
+                status_path, gate_result, gate_note = artifact_control.record_artifact_result(
                     project_dir=project_dir,
                     requirement_name=requirement_name,
-                    input_file=input_file,
                     requirement_id=id_map["req"],
-                    tc_ids=generation["tc_ids"],
+                    artifact_name=target_artifact,
+                    content=content,
+                    auto_approve=auto_approve,
                 )
-                writer.write_markdown_file(
-                    output_folder, "requirement-traceability-matrix.md", generated_content
-                )
-                markdown_written["requirement-traceability-matrix.md"] = generated_content
-            elif artifact_name == "requirement-traceability-flow":
-                generated_content = traceability_manager.build_requirement_traceability_flow(
-                    project_dir=project_dir,
-                    requirement_name=requirement_name,
-                    input_file=input_file,
-                    requirement_id=id_map["req"],
-                    tc_ids=generation["tc_ids"],
-                )
-                writer.write_markdown_file(
-                    output_folder, "requirement-traceability-flow.md", generated_content
-                )
-                markdown_written["requirement-traceability-flow.md"] = generated_content
-            elif artifact_name == "dependency-map":
-                path = dependency_manager.write_dependency_map(project_dir)
-                generated_content = reader.read_text_file(path)
-            elif artifact_name == "risk-notes":
-                generated_content = _build_risk_notes_markdown(
-                    project_name=project_name,
-                    requirement_name=requirement_name,
-                    requirement_id=id_map["req"],
-                    output_folder=output_folder,
-                )
-                writer.write_markdown_file(output_folder, "risk-notes.md", generated_content)
-                markdown_written["risk-notes.md"] = generated_content
             else:
-                outputs = item.get("outputs", [])
-                output_hint = ", ".join(outputs) if isinstance(outputs, list) else str(outputs)
-                raise ValueError(f"Unsupported artifact implementation: {artifact_name} ({output_hint})")
+                normalized_target = target_artifact if target_artifact.endswith(".md") else f"{target_artifact}.md"
+                if normalized_target not in markdown_files:
+                    raise ValueError(f"Artifact is not available: {target_artifact}")
+                content = markdown_files[normalized_target]
+                markdown_written[normalized_target] = content
+                changed_artifacts = version_manager.detect_artifact_changes(
+                    output_dir=output_folder,
+                    markdown_files=markdown_written,
+                    html_files=html_written,
+                )
+                writer.write_markdown_file(output_folder, normalized_target, content)
+                status_path, gate_result, gate_note = artifact_control.record_artifact_result(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    requirement_id=id_map["req"],
+                    artifact_name=normalized_target,
+                    content=content,
+                    auto_approve=auto_approve,
+                )
+                target_artifact = normalized_target
 
-            gate_result, gate_note = artifact_runner.detect_gate(artifact_name, generated_content)
-            artifact_runner.set_result(artifact_state, artifact_name, gate_result, gate_note)
-            artifact_runner.write_artifact_status(
-                project_dir, requirement_name, id_map["req"], catalog, artifact_state
+            logging.info(
+                f"Controlled artifact result: artifact={target_artifact} gate={gate_result} note={gate_note} status={status_path}"
+            )
+            artifact_control.render_gate_report(
+                project_dir=project_dir,
+                requirement_name=requirement_name,
+                requirement_id=id_map["req"],
             )
 
-        final_state = artifact_runner.parse_artifact_status(project_dir, requirement_name, catalog)
-        gate_report_path = artifact_runner.write_gate_report(
-            project_dir=project_dir,
-            requirement_name=requirement_name,
-            requirement_id=id_map["req"],
-            catalog=catalog,
-            state=final_state,
-        )
-        logging.info(f"Gate report updated: {gate_report_path}")
+            _post_generation_updates(
+                project_dir=project_dir,
+                input_file=input_file,
+                project_config=project_config,
+                generation=generation,
+                markdown_written=markdown_written,
+                html_written=html_written,
+                changed_artifacts=changed_artifacts,
+                is_new_output=not already_processed,
+                reason=f"Controlled artifact run for {target_artifact}",
+            )
 
-        changed_artifacts = version_manager.detect_artifact_changes(
-            output_dir=output_folder,
-            markdown_files=markdown_written,
-            html_files=html_written,
-        )
-        _post_generation_updates(
-            project_dir=project_dir,
-            input_file=input_file,
-            project_config=project_config,
-            generation=generation,
-            markdown_written=markdown_written,
-            html_written=html_written,
-            changed_artifacts=changed_artifacts,
-            is_new_output=not already_processed,
-            reason=f"{mode} run artifact update",
-        )
         message = f"Done {project_name} / {input_file.name} [{mode}]"
         print(message)
         logging.info(message)
@@ -2140,8 +2030,6 @@ def run_pipeline_for_input(
 def main() -> None:
     configure_logging()
     args = parse_arguments()
-    if (args.artifact or args.stage) and args.mode == "full":
-        args.mode = "controlled"
 
     if args.dashboard:
         dashboard_manager = load_local_module("dashboard_manager", "tools/project/dashboard_manager.py")
@@ -2155,10 +2043,10 @@ def main() -> None:
 
     projects = list_projects(args.project)
 
-    selected_requirement = args.requirement or args.input
-
-    if args.artifact and args.stage:
-        raise ValueError("Use either --artifact or --stage, not both.")
+    if args.approve and args.reject:
+        raise ValueError("Use only one of --approve or --reject in a single run.")
+    if args.artifact and args.mode != "controlled":
+        raise ValueError("--artifact is supported only when --mode controlled.")
 
     for project_dir in projects:
         project_config = reader.read_simple_yaml_file(project_dir / "project-config.yaml")
@@ -2167,10 +2055,10 @@ def main() -> None:
         logging.info(f"Project change log ready: {change_log_path}")
         input_files = list_requirement_inputs(project_dir)
 
-        if selected_requirement:
-            input_files = [path for path in input_files if path.name == selected_requirement]
+        if args.input:
+            input_files = [path for path in input_files if path.name == args.input]
             if not input_files:
-                message = f"Skipped {project_dir.name} (input not found: {selected_requirement})"
+                message = f"Skipped {project_dir.name} (input not found: {args.input})"
                 print(message)
                 logging.info(message)
                 continue
@@ -2181,6 +2069,43 @@ def main() -> None:
             logging.info(message)
             continue
 
+        if args.approve or args.reject:
+            artifact_control = load_local_module(
+                "artifact_control_manager", "tools/project/artifact_control_manager.py"
+            )
+            id_manager = load_local_module("id_manager", "tools/project/id_manager.py")
+            for input_file in input_files:
+                requirement_name = input_file.stem
+                id_map = id_manager.get_or_create_ids(project_dir, input_file)
+                artifact_control.ensure_artifact_control_files(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    requirement_id=id_map["req"],
+                )
+                artifact_name = args.approve or args.reject or ""
+                approval_state = "Approved" if args.approve else "Rejected"
+                notes = "Manual approval update from CLI."
+                status_path = artifact_control.set_artifact_approval(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    requirement_id=id_map["req"],
+                    artifact_name=artifact_name,
+                    approval_state=approval_state,
+                    notes=notes,
+                )
+                artifact_control.render_gate_report(
+                    project_dir=project_dir,
+                    requirement_name=requirement_name,
+                    requirement_id=id_map["req"],
+                )
+                message = (
+                    f"Approval updated {project_dir.name} / {input_file.name} / {artifact_name} -> {approval_state}"
+                )
+                print(message)
+                logging.info(message)
+                logging.info(f"Artifact status file updated: {status_path}")
+            continue
+
         for input_file in input_files:
             run_pipeline_for_input(
                 project_dir=project_dir,
@@ -2189,7 +2114,8 @@ def main() -> None:
                 force=args.force,
                 mode=args.mode,
                 artifact=args.artifact,
-                stage=args.stage,
+                require_approval=args.require_approval,
+                auto_approve=args.auto_approve,
             )
 
         project_flow_manager = load_local_module(

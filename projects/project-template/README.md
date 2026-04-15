@@ -50,19 +50,7 @@ Tracking file purposes:
 After you copy and rename this folder:
 
 ```bash
-python3 app.py --project <new-project-name> --requirement req-001.md
-```
-
-Run one stage:
-
-```bash
-python3 app.py --project <new-project-name> --requirement req-001.md --stage ba-core
-```
-
-Run one artifact:
-
-```bash
-python3 app.py --project <new-project-name> --requirement req-001.md --artifact frs
+python3 app.py --project <new-project-name> --input req-001.md
 ```
 
 After run:

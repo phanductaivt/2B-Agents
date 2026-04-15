@@ -14,18 +14,6 @@
 - Full mode: generate full package in one run.
 - Controlled mode: generate one artifact at a time with dependency gates.
 
-## Stage Model
-- `clarification`: clarification
-- `ba-core`: brd, process-bpmn, frs, user-story, acceptance-criteria, feature-list
-- `design`: wireframe
-- `fe-prototype`: ui
-- `review`: review, test-cases, requirement-traceability-matrix, requirement-traceability-flow, risk-notes, dependency-map
-
-Stage usage:
-- Use full run for fast baseline package generation.
-- Use stage run when you want controlled quality checks per stage.
-- Use artifact run when one file needs focused refinement.
-
 ## Step Flow
 1. Read `projects/<project-name>/inputs/requirements/<file>.md`
 2. Assign requirement and artifact IDs

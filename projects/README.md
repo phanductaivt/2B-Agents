@@ -45,7 +45,6 @@ Test case output:
 - `outputs/generated/<requirement-name>/artifact-status.md` for artifact-by-artifact status
 - `outputs/generated/<requirement-name>/artifact-checklist.md` for practical completion checks
 - `outputs/generated/<requirement-name>/gate-report.md` for gate and approval visibility
-- `outputs/generated/<requirement-name>/risk-notes.md` for review-stage risk summary
 
 Requirement ID system:
 - `id-registry.yaml` keeps a simple mapping from input file to requirement ID
@@ -107,19 +106,13 @@ python3 app.py --project ticket-booking-improvement
 Controlled artifact mode example:
 
 ```bash
-python3 app.py --project ticket-booking-improvement --requirement req-001.md --mode controlled
+python3 app.py --project ticket-booking-improvement --input req-001.md --mode controlled
 ```
 
-One stage example:
+Manual approval example:
 
 ```bash
-python3 app.py --project ticket-booking-improvement --requirement req-001.md --stage ba-core
-```
-
-One artifact example:
-
-```bash
-python3 app.py --project ticket-booking-improvement --requirement req-001.md --artifact frs
+python3 app.py --project ticket-booking-improvement --input req-001.md --approve frs.md
 ```
 
 After running, `status.md` is updated with a row for each processed requirement.

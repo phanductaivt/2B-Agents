@@ -17,7 +17,6 @@ The separate PO Agent was removed because the BA Agent now owns both:
 The system layer stores reusable parts:
 - agents
 - skills
-- artifacts
 - playbooks
 - validators
 - prompts
@@ -206,18 +205,7 @@ Example:
 2. Controlled mode
 - Generates one artifact at a time.
 - Checks dependency gates before downstream artifacts.
-- Tracks gate state per artifact in `artifact-status.md`.
-
-Artifact model source:
-- `artifacts/artifact-catalog.yaml`
-- Implemented by `tools/project/artifact_runner.py`
-
-Stage model:
-- clarification
-- ba-core
-- design
-- fe-prototype
-- review
+- Supports manual approval states for each artifact.
 
 ## Why This Design Helps BA/PO Work
 

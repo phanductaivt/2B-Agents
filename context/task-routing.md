@@ -34,16 +34,6 @@ Use for:
 - UXUI output ready -> FE Agent
 - FE output ready -> Reviewer/validators
 
-## Stage Routing
-- clarification stage -> BA Agent
-- ba-core stage -> BA Agent
-- design stage -> UXUI Agent
-- fe-prototype stage -> FE Agent
-- review stage -> Reviewer + validators
-
-Use stage routing when running:
-- `python app.py --project <project-name> --requirement <file> --stage <stage-name>`
-
 ## Output Routing
 - BA writes analysis artifacts in requirement output folder
 - UXUI writes `wireframe.md`

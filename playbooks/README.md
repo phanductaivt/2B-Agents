@@ -42,9 +42,6 @@ Execution styles:
 - full run: generate the whole package in one pass
 - controlled run: generate one artifact at a time with dependency gates
 
-Artifact definitions:
-- see `artifacts/artifact-catalog.yaml`
-
 ## Current Playbooks
 
 - `requirement-intake/`

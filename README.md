@@ -62,7 +62,6 @@ projects/<project-name>/
 System-level folders:
 - `agents/`: role-based agent definitions
 - `skills/`: reusable BA-led analysis and product-structuring skills
-- `artifacts/`: artifact model catalog for artifact-by-artifact execution
 - `knowledge/`: shared fallback knowledge for all projects
 - `playbooks/`: reusable end-to-end processes
 - `tools/`: simple local-first file utilities and future placeholders
@@ -169,7 +168,6 @@ Artifact control outputs (for controlled mode):
 - `outputs/generated/<requirement-name>/artifact-status.md`
 - `outputs/generated/<requirement-name>/artifact-checklist.md`
 - `outputs/generated/<requirement-name>/gate-report.md`
-- `outputs/generated/<requirement-name>/risk-notes.md`
 
 Dependency mapping output:
 - `projects/<project-name>/dependency-map.md` (project-level dependency table + Mermaid graph + downstream risk notes)
@@ -209,12 +207,6 @@ Run one project only:
 python3 app.py --project ticket-booking-improvement
 ```
 
-Run one requirement only:
-
-```bash
-python3 app.py --project ticket-booking-improvement --requirement req-001.md
-```
-
 Re-run all requirements in one project:
 
 ```bash
@@ -230,13 +222,19 @@ python3 app.py --project ticket-booking-improvement --mode controlled
 Run one specific artifact in controlled mode:
 
 ```bash
-python3 app.py --project ticket-booking-improvement --requirement req-001.md --artifact frs
+python3 app.py --project ticket-booking-improvement --input req-001.md --mode controlled --artifact frs.md
 ```
 
-Run one stage in controlled mode:
+Require upstream approvals before downstream artifact runs:
 
 ```bash
-python3 app.py --project ticket-booking-improvement --requirement req-001.md --stage ba-core
+python3 app.py --project ticket-booking-improvement --input req-001.md --mode controlled --artifact wireframe.md --require-approval
+```
+
+Approve one artifact after review:
+
+```bash
+python3 app.py --project ticket-booking-improvement --input req-001.md --approve frs.md
 ```
 
 Refresh the dashboard:
@@ -263,9 +261,6 @@ The automated flow in `app.py`:
 - refreshes project dependency mapping in `dependency-map.md`
 - updates `status.md` for the processed requirement
 - writes output into `projects/<project-name>/outputs/generated/<input-name>/`
-
-Artifact model source:
-- `artifacts/artifact-catalog.yaml` defines artifact name, stage, owner, dependencies, outputs, validators, and gate requirement.
 
 The dashboard flow:
 - reads each project's `status.md`

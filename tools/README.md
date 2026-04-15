@@ -12,8 +12,7 @@ Dependency mapping helper:
 - `tools/project/dependency_manager.py` generates `projects/<project-name>/dependency-map.md`.
 
 Artifact control helper:
-- `tools/project/artifact_runner.py` loads artifact catalog, resolves dependencies, and updates `artifact-status.md`.
-- `tools/project/artifact_control_manager.py` is legacy and can be kept only for backward reference.
+- `tools/project/artifact_control_manager.py` manages artifact-by-artifact status, gate checks, checklist, and approval state.
 
 The framework currently depends on local file tools first.
 
