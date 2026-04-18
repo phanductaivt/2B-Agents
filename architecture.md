@@ -33,6 +33,12 @@ Dashboard is cross-project visibility, so it lives outside `projects/`:
 - `workspace/dashboard.md`
 - `workspace/dashboard.html`
 
+Operations console (main console surface) lives in workspace:
+- `workspace/ops-console/index.html`
+
+Decision review UI path is deprecated:
+- `workspace/decision-review/index.html` (legacy compatibility redirect)
+
 ## Knowledge Model
 
 - Shared knowledge: `system/knowledge/`
@@ -62,6 +68,15 @@ Per requirement output folder:
 
 Gate and approval rules are configured in:
 - `system/configs/gates.yaml`
+
+Per project confirmation workspace:
+- `_ops/confirmations/pending-confirmations.yaml` (source of truth)
+- `_ops/confirmations/pending-confirmations.md` (readable summary)
+- `_ops/confirmations/decisions-log.md` (decision trail)
+
+Source-of-truth split:
+- `_ops/...` = runtime/governance truth used by runners, gates, and summaries.
+- `02-output/...` = curated reading surface for daily BA/Design/FE usage.
 
 ## Visual References
 

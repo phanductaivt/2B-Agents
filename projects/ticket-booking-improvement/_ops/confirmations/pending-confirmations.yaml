@@ -1,0 +1,31 @@
+items:
+- id: CFM-001
+  project: ticket-booking-improvement
+  requirement: req-001
+  artifact: frs
+  type: policy
+  title: Waiting for confirmation on fee disclosure policy.
+  description: Waiting for confirmation on fee disclosure policy.
+  status: pending
+  owner: BA Team
+  impact:
+  - BA
+  - UXUI
+  - FE
+  gate_impact: true
+  blocked_reason: Waiting for confirmation on fee disclosure policy.
+  suggested_action: Confirm change eligibility rules with ticketing policy owner.
+  recommendation_source: research-agent
+  recommendation_label: Research Recommendation
+  decision_authority: human-required
+  data_state: recommended
+  decision: ''
+  decision_note: ''
+  confirmed_by: ''
+  confirmed_at: ''
+  final_decision_by: ''
+  effective_rule_update_target:
+  - 04-knowledge/business-rules.md
+  linked_files:
+  - 01-input/requirements/
+  - _ops/decision-log.md

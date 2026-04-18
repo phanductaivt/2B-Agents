@@ -1047,3 +1047,131 @@
 2026-04-15 23:31:58,838 | INFO | [OPS] ticket-booking-improvement: project flow, traceability summary, and dependency map refreshed.
 2026-04-15 23:31:58,840 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
 2026-04-15 23:31:58,840 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-16 14:47:02,099 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-16 14:47:02,106 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-16 14:47:02,108 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-16 14:55:52,072 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-16 14:55:52,083 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-16 14:55:52,083 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-16 15:12:13,298 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-16 15:12:13,307 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-16 15:12:13,308 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-16 15:27:18,636 | INFO | [SKIPPED] Unchanged input skipped: req-001.md
+2026-04-16 15:27:18,640 | INFO | [OPS] loyalty-feature-expansion: project flow, traceability summary, and dependency map refreshed.
+2026-04-16 15:27:18,643 | INFO | [SKIPPED] Unchanged input skipped: req-001.md
+2026-04-16 15:27:18,648 | INFO | [OPS] ticket-booking-improvement: project flow, traceability summary, and dependency map refreshed.
+2026-04-16 15:27:18,657 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-16 15:27:18,657 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-16 16:41:26,951 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-16 16:41:26,982 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-16 16:41:26,983 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-16 16:41:34,333 | INFO | [CONFIRM] loyalty-feature-expansion: confirmations synced (total=1, created=0)
+2026-04-16 16:41:34,333 | INFO | [SKIPPED] Unchanged input skipped: req-001.md
+2026-04-16 16:41:34,337 | INFO | [OPS] loyalty-feature-expansion: project flow, traceability summary, and dependency map refreshed.
+2026-04-16 16:41:34,341 | INFO | [CONFIRM] loyalty-feature-expansion: confirmations refreshed (total=1, created=0)
+2026-04-16 16:41:34,347 | INFO | [CONFIRM] ticket-booking-improvement: confirmations synced (total=1, created=0)
+2026-04-16 16:41:34,348 | INFO | [SKIPPED] Unchanged input skipped: req-001.md
+2026-04-16 16:41:34,351 | INFO | [OPS] ticket-booking-improvement: project flow, traceability summary, and dependency map refreshed.
+2026-04-16 16:41:34,356 | INFO | [CONFIRM] ticket-booking-improvement: confirmations refreshed (total=1, created=0)
+2026-04-16 16:41:34,367 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-16 16:41:34,367 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-17 23:29:15,795 | INFO | [OPS-CONSOLE] Starting Operations Console V2 server...
+2026-04-18 00:12:16,504 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 00:12:16,529 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 00:12:16,530 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 00:36:09,478 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 00:36:09,524 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 00:36:09,524 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 01:04:40,211 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 01:04:40,237 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 01:04:40,238 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 01:31:25,950 | INFO | [DECISION] Starting legacy decision-workspace wrapper (deprecated)...
+2026-04-18 01:31:25,950 | WARNING | decision-workspace is deprecated. Use --ops-console as the primary path.
+2026-04-18 11:01:14,166 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 11:01:14,198 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 11:01:14,199 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 11:06:34,946 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 11:06:34,972 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 11:06:34,972 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 11:19:40,276 | INFO | [CONFIRM] ticket-booking-improvement: confirmations synced (total=1, created=0)
+2026-04-18 11:19:40,277 | INFO | Force re-run: req-001.md
+2026-04-18 11:19:40,277 | INFO | [PROJECT] ticket-booking-improvement
+2026-04-18 11:19:40,277 | INFO | [INPUT] req-001.md (controlled)
+2026-04-18 11:19:40,278 | INFO | Requirement req-001 started.
+2026-04-18 11:19:40,302 | INFO | [SCENARIO] ticket-booking-improvement: Scenario resolved: ticketing (project-scenario)
+2026-04-18 11:19:40,311 | INFO | [GOVERNANCE] ticket-booking-improvement/req-001: artifact status/checklist/reviews ready.
+2026-04-18 11:19:40,312 | INFO | [UXUI/DESIGN] Running artifact: wireframe
+2026-04-18 11:19:40,313 | INFO | ticket-booking-improvement/req-001.md -> wireframe | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:19:40,314 | INFO | [GATE] ticket-booking-improvement/req-001: gate results/report refreshed.
+2026-04-18 11:19:40,314 | INFO | [VERSION] ticket-booking-improvement/req-001 -> version v1.2 (changed: none)
+2026-04-18 11:19:40,315 | INFO | [STATUS] ticket-booking-improvement/req-001: BA=✅ UXUI=✅ FE=✅ Reviewer=✅
+2026-04-18 11:19:40,316 | INFO | [FLOW] ticket-booking-improvement/req-001: requirement flow refreshed.
+2026-04-18 11:19:40,318 | INFO | ticket-booking-improvement/req-001.md: completed (controlled).
+2026-04-18 11:19:40,321 | INFO | [OPS] ticket-booking-improvement: project flow, traceability summary, and dependency map refreshed.
+2026-04-18 11:19:40,325 | INFO | [CONFIRM] ticket-booking-improvement: confirmations refreshed (total=1, created=0)
+2026-04-18 11:19:40,338 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 11:19:40,338 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 11:20:32,610 | INFO | [CONFIRM] ticket-booking-improvement: confirmations synced (total=1, created=0)
+2026-04-18 11:20:32,611 | INFO | Force re-run: req-001.md
+2026-04-18 11:20:32,611 | INFO | [PROJECT] ticket-booking-improvement
+2026-04-18 11:20:32,611 | INFO | [INPUT] req-001.md (full)
+2026-04-18 11:20:32,611 | INFO | Requirement req-001 started.
+2026-04-18 11:20:32,636 | INFO | [SCENARIO] ticket-booking-improvement: Scenario resolved: ticketing (project-scenario)
+2026-04-18 11:20:32,645 | INFO | [GOVERNANCE] ticket-booking-improvement/req-001: artifact status/checklist/reviews ready.
+2026-04-18 11:20:32,645 | INFO | [BA/CLARIFICATION] Running artifact: clarification
+2026-04-18 11:20:32,646 | INFO | ticket-booking-improvement/req-001.md -> clarification | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,646 | INFO | [BA/BA-CORE] Running artifact: brd
+2026-04-18 11:20:32,647 | WARNING | ticket-booking-improvement/req-001.md -> brd | status=In Review | gate=Warning | approval=In Review | note=completeness-checker: Pass; consistency-checker: Warning
+2026-04-18 11:20:32,648 | INFO | [BA/BA-CORE] Running artifact: process-bpmn
+2026-04-18 11:20:32,648 | INFO | ticket-booking-improvement/req-001.md -> process-bpmn | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,649 | INFO | [BA/BA-CORE] Running artifact: frs
+2026-04-18 11:20:32,650 | INFO | ticket-booking-improvement/req-001.md -> frs | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,650 | INFO | [BA/BA-CORE] Running artifact: user-story
+2026-04-18 11:20:32,651 | INFO | ticket-booking-improvement/req-001.md -> user-story | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,651 | INFO | [BA/BA-CORE] Running artifact: acceptance-criteria
+2026-04-18 11:20:32,652 | INFO | ticket-booking-improvement/req-001.md -> acceptance-criteria | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,652 | INFO | [BA/BA-CORE] Running artifact: feature-list
+2026-04-18 11:20:32,653 | INFO | ticket-booking-improvement/req-001.md -> feature-list | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,654 | INFO | [UXUI/DESIGN] Running artifact: wireframe
+2026-04-18 11:20:32,655 | INFO | ticket-booking-improvement/req-001.md -> wireframe | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,655 | INFO | [FE/FE-PROTOTYPE] Running artifact: ui
+2026-04-18 11:20:32,656 | INFO | ticket-booking-improvement/req-001.md -> ui | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,656 | INFO | [REVIEWER/REVIEW] Running artifact: review
+2026-04-18 11:20:32,657 | WARNING | ticket-booking-improvement/req-001.md -> review | status=In Review | gate=Warning | approval=In Review | note=ambiguity-checker: Pass; completeness-checker: Pass; consistency-checker: Warning; template-checker: Pass
+2026-04-18 11:20:32,657 | INFO | [REVIEWER/REVIEW] Running artifact: test-cases
+2026-04-18 11:20:32,659 | WARNING | ticket-booking-improvement/req-001.md -> test-cases | status=In Review | gate=Warning | approval=In Review | note=completeness-checker: Warning; consistency-checker: Pass
+2026-04-18 11:20:32,659 | INFO | [REVIEWER/REVIEW] Running artifact: requirement-traceability-matrix
+2026-04-18 11:20:32,660 | INFO | ticket-booking-improvement/req-001.md -> requirement-traceability-matrix | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,661 | INFO | [REVIEWER/REVIEW] Running artifact: requirement-traceability-flow
+2026-04-18 11:20:32,662 | INFO | ticket-booking-improvement/req-001.md -> requirement-traceability-flow | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,662 | INFO | [REVIEWER/REVIEW] Running artifact: dependency-map
+2026-04-18 11:20:32,663 | INFO | ticket-booking-improvement/req-001.md -> dependency-map | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,663 | INFO | [REVIEWER/REVIEW] Running artifact: risk-notes
+2026-04-18 11:20:32,664 | INFO | ticket-booking-improvement/req-001.md -> risk-notes | status=Done | gate=Pass | approval=Approved
+2026-04-18 11:20:32,665 | INFO | [GATE] ticket-booking-improvement/req-001: gate results/report refreshed.
+2026-04-18 11:20:32,666 | INFO | [VERSION] ticket-booking-improvement/req-001 -> version v1.2 (changed: none)
+2026-04-18 11:20:32,667 | INFO | [STATUS] ticket-booking-improvement/req-001: BA=✅ UXUI=✅ FE=✅ Reviewer=✅
+2026-04-18 11:20:32,668 | INFO | [FLOW] ticket-booking-improvement/req-001: requirement flow refreshed.
+2026-04-18 11:20:32,669 | INFO | [TRACE] ticket-booking-improvement/req-001: requirement traceability refreshed (2 files).
+2026-04-18 11:20:32,671 | INFO | ticket-booking-improvement/req-001.md: completed (full).
+2026-04-18 11:20:32,674 | INFO | [OPS] ticket-booking-improvement: project flow, traceability summary, and dependency map refreshed.
+2026-04-18 11:20:32,679 | INFO | [CONFIRM] ticket-booking-improvement: confirmations refreshed (total=1, created=0)
+2026-04-18 11:20:32,693 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 11:20:32,694 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 11:20:35,477 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 11:20:35,508 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 11:20:35,509 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 17:31:36,466 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 17:31:36,473 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 17:31:36,473 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 17:32:51,145 | INFO | [OPS-CONSOLE] Starting Operations Console V2 server...
+2026-04-18 17:59:40,117 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 17:59:40,151 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 17:59:40,152 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html
+2026-04-18 19:01:30,596 | INFO | [OPS-CONSOLE] Starting Operations Console V2 server...
+2026-04-18 19:03:37,023 | INFO | [OPS-CONSOLE] Starting Operations Console V2 server...
+2026-04-18 19:40:39,087 | INFO | [OPS-CONSOLE] Starting Operations Console V2 server...
+2026-04-18 19:43:58,037 | INFO | [OPS-CONSOLE] Starting Operations Console V2 server...
+2026-04-18 20:12:01,267 | INFO | [DASHBOARD] Refreshing dashboard only...
+2026-04-18 20:12:01,304 | INFO | Dashboard updated: /Users/macbookair/2B Agents/workspace/dashboard.md
+2026-04-18 20:12:01,304 | INFO | HTML dashboard generated: /Users/macbookair/2B Agents/workspace/dashboard.html

@@ -6,7 +6,7 @@ This folder stores reusable scenario defaults used by the runner.
 
 - Keep scenario logic out of `app.py`
 - Make new projects configuration-driven
-- Let BA/PO users add scenario behavior by editing YAML, not Python
+- Let BA/business users add scenario behavior by editing YAML, not Python
 
 ## Files
 

@@ -15,6 +15,5 @@ Use prompt files to keep:
 
 Current active design:
 - BA Agent handles both analysis and former product-structuring work.
-- `po-agent-prompt.md` is kept only as a deprecated reference.
 
 The prompts in this scaffold are short and easy to extend.

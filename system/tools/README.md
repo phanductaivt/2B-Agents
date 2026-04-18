@@ -7,6 +7,7 @@ Current tool areas:
 - `project/`: lightweight helpers for status, dashboard, flow, traceability, IDs, test cases, and versioning (`change-log.md`, `version-info.md`)
 - `context/`: context loading and safe Level 1 context sync helpers
 - `logging/`: shared Rich-based colored terminal logger (`console_logger.py`)
+- `ops_console/`: Operations Console V2 backend (primary console; confirmation writes enabled in Phase 1.5)
 - `jira/`: placeholder for a future Jira connector
 - `confluence/`: placeholder for a future Confluence connector
 

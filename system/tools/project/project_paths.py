@@ -39,6 +39,10 @@ def traceability_dir(project_dir: Path) -> Path:
     return ops_dir(project_dir) / "traceability"
 
 
+def confirmations_dir(project_dir: Path) -> Path:
+    return ops_dir(project_dir) / "confirmations"
+
+
 def generated_root(project_dir: Path) -> Path:
     return ops_dir(project_dir) / "generated"
 
@@ -83,6 +87,22 @@ def processing_state_path(project_dir: Path) -> Path:
     return runtime_dir(project_dir) / "processing-state.yaml"
 
 
+def ops_console_staleness_path(project_dir: Path) -> Path:
+    return runtime_dir(project_dir) / "ops-console-staleness.yaml"
+
+
+def pending_confirmations_yaml_path(project_dir: Path) -> Path:
+    return confirmations_dir(project_dir) / "pending-confirmations.yaml"
+
+
+def pending_confirmations_markdown_path(project_dir: Path) -> Path:
+    return confirmations_dir(project_dir) / "pending-confirmations.md"
+
+
+def confirmations_decisions_log_path(project_dir: Path) -> Path:
+    return confirmations_dir(project_dir) / "decisions-log.md"
+
+
 def curated_output_dir(project_dir: Path) -> Path:
     return project_dir / "02-output"
 
@@ -97,4 +117,3 @@ def curated_design_dir(project_dir: Path) -> Path:
 
 def curated_fe_dir(project_dir: Path) -> Path:
     return curated_output_dir(project_dir) / "fe"
-

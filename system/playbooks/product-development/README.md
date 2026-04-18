@@ -11,7 +11,7 @@ It covers:
 Important rule:
 - if the requirement includes functional scope, the BA Agent must generate `feature-list.md` as part of the BA output package before UXUI and FE work starts
 
-Use it when the team wants one requirement inside a selected project to move from analysis to visible frontend output without a separate PO Agent.
+Use it when the team wants one requirement inside a selected project to move from analysis to visible frontend output in one BA-led flow.
 
 Run styles:
 - full mode: generate all outputs in one run

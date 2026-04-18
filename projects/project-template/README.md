@@ -26,6 +26,12 @@ Inside `_ops/`:
 - `change-log.md`: project-level version history
 - `dependency-map.md`: dependency view
 - `project-flow.md`: auto-generated visual flow
+- `confirmations/pending-confirmations.yaml`: confirmation source of truth
+- `confirmations/pending-confirmations.md`: readable confirmation summary
+- `confirmations/decisions-log.md`: confirmation decision history
+- confirmation data labels:
+  - `Research Recommendation` and `Recommended Data` (not final)
+  - `Confirmed Data` only after human confirmation
 - `traceability/requirement-traceability-summary.md`
 - `runtime/id-registry.yaml`: artifact IDs
 - `runtime/processing-state.yaml`: incremental hash state
@@ -63,6 +69,14 @@ Add a custom scenario later:
 - project knowledge: `projects/<project-name>/04-knowledge/`
 - deep generated runtime output: `projects/<project-name>/_ops/generated/`
 - project tracking and governance: `projects/<project-name>/_ops/`
+
+Operations console:
+```bash
+python3 app.py --ops-console
+```
+
+Then open:
+`http://127.0.0.1:8790`
 
 ## How To Run
 

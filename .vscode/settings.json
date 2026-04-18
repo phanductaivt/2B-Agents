@@ -4,5 +4,7 @@
   "terminal.integrated.defaultProfile.osx": "zsh",
   "files.exclude": {
     "**/.venv": true
-  }
+  },
+  "geminicodeassist.agentYoloMode": true,
+  "geminicodeassist.agentDebugMode": true
 }

@@ -2,8 +2,8 @@
 
 ## Project Overview
 - Project Name:
-- Owner:
-- Current Stage: Draft
+- Project Owner:
+- Project Phase: Draft
 - Last Updated:
 - Overall Progress:
 

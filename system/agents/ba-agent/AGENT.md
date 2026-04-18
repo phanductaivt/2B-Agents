@@ -17,7 +17,7 @@ The BA Agent now covers:
 - functional module grouping
 - first-slice product structuring for UXUI and FE handoff
 
-This means the BA Agent now owns the former PO-style structuring work inside the same BA package.
+This means the BA Agent now owns full feature structuring work inside the same BA package.
 The BA Agent does not stop at understanding the requirement.
 It also turns the requirement into a practical feature structure that delivery teams can follow.
 

@@ -113,6 +113,23 @@ def load_artifact_catalog(catalog_path: Path) -> list[dict[str, object]]:
     if current:
         artifacts.append(current)
 
+    # Fail fast on duplicate artifact names to avoid silent shadowing in
+    # catalog_by_name(), which would make execution order and dependency checks fragile.
+    seen: set[str] = set()
+    duplicates: list[str] = []
+    for item in artifacts:
+        name = str(item.get("name", "")).strip()
+        if not name:
+            continue
+        if name in seen and name not in duplicates:
+            duplicates.append(name)
+        seen.add(name)
+    if duplicates:
+        raise ValueError(
+            "Duplicate artifact names in artifact catalog: "
+            + ", ".join(sorted(duplicates))
+        )
+
     return artifacts
 
 

@@ -14,9 +14,9 @@
 
 Use `_ops/` only when you need governance, runtime, and trace details:
 - tracking: `_ops/status.md`, `_ops/task-tracker.md`, `_ops/decision-log.md`
+- confirmations: `_ops/confirmations/`
 - generated details: `_ops/generated/`
 - traceability: `_ops/traceability/`
 - runtime state: `_ops/runtime/`
 
 <!-- TODO: Add checklist for first successful run verification. -->
-

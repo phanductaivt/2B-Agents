@@ -22,5 +22,4 @@ Open `_ops/`:
 - `_ops/traceability/`
 - `_ops/runtime/`
 
-<!-- TODO: Add one screenshot-style example for first-time BA/PO users. -->
-
+<!-- TODO: Add one screenshot-style example for first-time BA users. -->

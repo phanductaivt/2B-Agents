@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Operations Console V2</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Agent Operations Console V2</h1>
+      <p>Phase 3B (confirmations + safe docs editing + stale analysis + controlled rerun actions)</p>
+    </div>
+    <div class="badge write-enabled">Phase 3B</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="project-ops">Project Operations</button>
+    <button class="tab" data-tab="confirmations">Confirmations</button>
+    <button class="tab" data-tab="docs">Docs</button>
+    <button class="tab" data-tab="actions">Actions</button>
+  </nav>
+
+  <main>
+    <section id="overview" class="panel active">
+      <h2>Overview</h2>
+      <div id="overview-metrics" class="metrics"></div>
+      <div class="card">
+        <h3>Projects</h3>
+        <div class="table-wrap">
+          <table id="overview-project-table">
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Project Phase</th>
+                <th>Project Status</th>
+                <th>Project Readiness</th>
+                <th>Execution Stage</th>
+                <th>Execution Owner</th>
+                <th>Stale Docs</th>
+                <th>Needs Rerun</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="project-ops" class="panel">
+      <h2>Project Operations</h2>
+      <label for="project-select">Project:</label>
+      <select id="project-select"></select>
+      <div id="project-summary" class="grid-two"></div>
+      <div class="card">
+        <h3>Requirements</h3>
+        <div class="table-wrap">
+          <table id="requirements-table">
+            <thead>
+              <tr>
+                <th>Requirement</th>
+                <th>Processing Status</th>
+                <th>Input Change State</th>
+                <th>Last Processed</th>
+                <th>Rerun Needed</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Tasks (Read-only Snapshot)</h3>
+        <div class="table-wrap">
+          <table id="tasks-table">
+            <thead>
+              <tr>
+                <th>Task ID</th>
+                <th>Artifact</th>
+                <th>Stage</th>
+                <th>Agent Owner</th>
+                <th>Status</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="confirmations" class="panel">
+      <h2>Confirmations</h2>
+      <p>YAML is source of truth. Summary Markdown and decisions log remain synchronized.</p>
+      <div class="card controls-grid">
+        <label for="confirmation-project-select">Project:</label>
+        <select id="confirmation-project-select"></select>
+        <label for="confirmation-status-filter">Status:</label>
+        <select id="confirmation-status-filter">
+          <option value="all">All</option>
+          <option value="pending">Pending</option>
+          <option value="needs-more-info">Needs More Info</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="rejected">Rejected</option>
+          <option value="resolved">Resolved</option>
+        </select>
+        <label for="confirmation-type-filter">Type:</label>
+        <select id="confirmation-type-filter"><option value="all">All</option></select>
+        <label for="confirmation-owner-filter">Owner:</label>
+        <select id="confirmation-owner-filter"><option value="all">All</option></select>
+        <label for="confirmation-search">Search:</label>
+        <input id="confirmation-search" placeholder="ID / requirement / title" />
+        <button id="confirmations-refresh">Refresh From Status</button>
+      </div>
+      <div class="grid-two">
+        <div class="card">
+          <h3>Items</h3>
+          <div class="table-wrap">
+            <table id="confirmations-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Status</th>
+                  <th>Type</th>
+                  <th>Owner</th>
+                  <th>Title</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Detail</h3>
+          <div id="confirmation-detail" class="detail-box">Select a confirmation item.</div>
+          <div id="confirmation-editor" class="confirmation-editor hidden">
+            <label>Status</label>
+            <select id="confirmation-detail-status">
+              <option value="pending">pending</option>
+              <option value="confirmed">confirmed</option>
+              <option value="rejected">rejected</option>
+              <option value="needs-more-info">needs-more-info</option>
+              <option value="resolved">resolved</option>
+            </select>
+            <label>Decision</label>
+            <input id="confirmation-detail-decision" class="confirmation-input" />
+            <label>Decision Note</label>
+            <textarea id="confirmation-detail-note" class="confirmation-note"></textarea>
+            <label>Confirmed By</label>
+            <input id="confirmation-detail-by" class="confirmation-input" />
+            <label>Confirmed At</label>
+            <input id="confirmation-detail-at" class="confirmation-input" />
+            <div class="confirmation-actions-row">
+              <button class="btn-compact" id="btn-confirm">Confirm</button>
+              <button class="btn-compact" id="btn-reject">Reject</button>
+              <button class="btn-compact" id="btn-needs-info">Needs More Info</button>
+              <button class="btn-compact" id="btn-resolve">Mark Resolved</button>
+              <button class="btn-compact" id="btn-note">Update Decision Note</button>
+              <button class="btn-compact" id="btn-by">Update Confirmed By</button>
+              <button class="btn-compact" id="btn-at">Update Confirmed At</button>
+              <button class="btn-save" id="btn-save-confirmation">Save</button>
+            </div>
+          </div>
+          <div id="confirmations-message" class="muted-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="docs" class="panel">
+      <h2>Docs</h2>
+      <p>Only allowlisted files are editable. Stale detection and rerun recommendations are visible here.</p>
+      <div class="card controls-grid">
+        <label for="docs-project-select">Project:</label>
+        <select id="docs-project-select"></select>
+        <label for="docs-group-filter">Group:</label>
+        <select id="docs-group-filter">
+          <option value="all">All</option>
+        </select>
+        <button id="docs-refresh">Refresh Docs</button>
+      </div>
+      <div id="docs-staleness-summary" class="muted-text"></div>
+      <div class="grid-two">
+        <div class="card">
+          <h3>Document List</h3>
+          <ul id="docs-list" class="simple-list"></ul>
+        </div>
+        <div class="card">
+          <h3>Preview / Edit</h3>
+          <div id="docs-meta" class="meta-box">Select a document.</div>
+          <textarea id="doc-editor" class="doc-editor" readonly></textarea>
+          <div class="confirmation-actions-row">
+            <button class="btn-compact" id="doc-cancel">Cancel</button>
+            <button class="btn-save" id="doc-save" disabled>Save</button>
+          </div>
+          <div id="docs-message" class="muted-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="actions" class="panel">
+      <h2>Actions</h2>
+      <div id="actions-card" class="card"></div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

@@ -2,9 +2,9 @@
 
 ## Project Overview
 - Project Name: ticket-booking-improvement
-- Owner: BA Team
-- Current Stage: Analysis
-- Last Updated: 2026-04-15
+- Project Owner: BA Team
+- Project Phase: Analysis
+- Last Updated: 2026-04-18
 - Overall Progress: In Progress
 
 ## Requirement Status Table

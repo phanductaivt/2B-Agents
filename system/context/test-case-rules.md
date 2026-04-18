@@ -6,7 +6,7 @@
 - Acceptance Criteria
 
 ## Test Case File
-- `outputs/generated/<requirement-name>/test-cases.md`
+- `projects/<project-name>/_ops/generated/<requirement-name>/test-cases.md`
 - Matrix includes: TC ID, linked AC/US/FR IDs, scenario, steps, expected result, priority, notes.
 
 ## Coverage Types

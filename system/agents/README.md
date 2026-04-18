@@ -17,7 +17,4 @@ Current active product development roles:
 - Research Agent
 - Orchestrator Agent
 
-Historical note:
-- `po-agent/` is kept only as a deprecated reference because its responsibilities were moved into the BA Agent.
-
 The agent files are simple enough for BA, design, and delivery teams to read together.

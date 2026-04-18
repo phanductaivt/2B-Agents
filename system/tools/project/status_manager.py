@@ -37,8 +37,8 @@ def _build_template(project_name: str, owner: str) -> str:
             "",
             "## Project Overview",
             f"- Project Name: {project_name}",
-            f"- Owner: {owner}",
-            "- Current Stage: Analysis",
+            f"- Project Owner: {owner}",
+            "- Project Phase: Analysis",
             f"- Last Updated: {_today()}",
             "- Overall Progress: In Progress",
             "",
@@ -89,18 +89,20 @@ def update_project_status(
     status_text = status_path.read_text(encoding="utf-8")
     lines = status_text.splitlines()
 
-    def set_overview_line(prefix: str, value: str) -> None:
+    def set_overview_line(prefixes: list[str], canonical_prefix: str, value: str) -> None:
         for index, line in enumerate(lines):
-            if line.startswith(prefix):
+            if any(line.startswith(prefix) for prefix in prefixes):
                 current_value = line.split(":", 1)[1].strip()
                 if current_value:
+                    if not line.startswith(canonical_prefix):
+                        lines[index] = f"{canonical_prefix} {current_value}"
                     return
-                lines[index] = f"{prefix} {value}"
+                lines[index] = f"{canonical_prefix} {value}"
                 return
 
-    set_overview_line("- Project Name:", project_name)
-    set_overview_line("- Owner:", owner)
-    set_overview_line("- Current Stage:", "Analysis")
+    set_overview_line(["- Project Name:"], "- Project Name:", project_name)
+    set_overview_line(["- Project Owner:", "- Owner:"], "- Project Owner:", owner)
+    set_overview_line(["- Project Phase:", "- Current Stage:"], "- Project Phase:", "Analysis")
     for index, line in enumerate(lines):
         if line.startswith("- Last Updated:"):
             lines[index] = f"- Last Updated: {_today()}"

@@ -41,6 +41,9 @@ The first scope is a clearer web view for points, tier progress, and recent loya
 - `_ops/traceability/requirement-traceability-summary.md`
 - `_ops/runtime/id-registry.yaml`
 - `_ops/runtime/processing-state.yaml`
+- `_ops/confirmations/pending-confirmations.yaml`
+- `_ops/confirmations/pending-confirmations.md`
+- `_ops/confirmations/decisions-log.md`
 
 What they do:
 - `_ops/status.md` shows overall progress and requirement status.
@@ -48,6 +51,7 @@ What they do:
 - `_ops/task-tracker.md` keeps a simple task board.
 - `_ops/change-log.md` tracks version updates for generated requirement outputs.
 - `_ops/dependency-map.md` shows prerequisite links (REQ -> FR -> FEAT) and downstream risks.
+- `_ops/confirmations/` tracks pending business confirmations and saved decisions.
 
 Version file per requirement output:
 - `_ops/generated/<requirement-name>/version-info.md`

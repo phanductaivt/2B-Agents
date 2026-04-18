@@ -1,0 +1,31 @@
+items:
+- id: CFM-001
+  project: loyalty-feature-expansion
+  requirement: req-001
+  artifact: frs
+  type: policy
+  title: Waiting for loyalty policy confirmation.
+  description: Waiting for loyalty policy confirmation.
+  status: pending
+  owner: Product Analysis Team
+  impact:
+  - BA
+  - UXUI
+  - FE
+  gate_impact: true
+  blocked_reason: Waiting for loyalty policy confirmation.
+  suggested_action: Validate tier calculation rules with loyalty operations.
+  recommendation_source: research-agent
+  recommendation_label: Research Recommendation
+  decision_authority: human-required
+  data_state: recommended
+  decision: ''
+  decision_note: ''
+  confirmed_by: ''
+  confirmed_at: ''
+  final_decision_by: ''
+  effective_rule_update_target:
+  - 04-knowledge/business-rules.md
+  linked_files:
+  - 01-input/requirements/
+  - _ops/decision-log.md

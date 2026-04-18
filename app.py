@@ -66,7 +66,38 @@ def parse_arguments() -> argparse.Namespace:
         action="store_true",
         help="Allow artifact run even when upstream gate is blocked. Use carefully.",
     )
+    parser.add_argument(
+        "--decision-workspace",
+        action="store_true",
+        help="(Deprecated) Open legacy decision workspace wrapper (redirects to ops_console).",
+    )
+    parser.add_argument(
+        "--ops-console",
+        action="store_true",
+        help="Open Operations Console V2 (primary console; Phase 3B controlled rerun + stale-based recommendations).",
+    )
     return parser.parse_args()
+
+
+def start_console_server(mode: str) -> None:
+    """Start primary ops console or legacy compatibility wrapper."""
+    if mode == "legacy":
+        log_step("DECISION", "Starting legacy decision-workspace compatibility wrapper...")
+        log_warning("decision-workspace is deprecated and compatibility-only. Use --ops-console as primary.")
+        legacy_decision_server = load_local_module(
+            "legacy_decision_server",
+            "system/tools/review/decision_server.py",
+        )
+        legacy_decision_server.run_server(
+            base_dir=BASE_DIR,
+            host="127.0.0.1",
+            port=8787,
+        )
+        return
+
+    log_step("OPS-CONSOLE", "Starting Operations Console V2 server...")
+    ops_console_server = load_local_module("ops_console_server", "system/tools/ops_console/server.py")
+    ops_console_server.run_server(base_dir=BASE_DIR)
 
 
 def configure_logging() -> None:
@@ -2276,6 +2307,14 @@ def main() -> None:
         log_info(f"Report: {sync_result.get('report_path')}")
         return
 
+    if args.decision_workspace:
+        start_console_server("legacy")
+        return
+
+    if args.ops_console:
+        start_console_server("primary")
+        return
+
     if (args.artifact or args.stage) and args.mode == "full":
         args.mode = "controlled"
     selected_requirement = args.requirement or args.input
@@ -2311,7 +2350,18 @@ def main() -> None:
         run_summary["projects_processed"] += 1
         project_config = reader.read_simple_yaml_file(project_dir / "project-config.yaml")
         version_manager = load_local_module("version_manager", "system/tools/project/version_manager.py")
+        confirmation_manager = load_local_module(
+            "confirmation_manager", "system/tools/review/confirmation_manager.py"
+        )
         version_manager.ensure_project_change_log(project_dir)
+        confirmation_sync = confirmation_manager.sync_confirmations_from_status(project_dir)
+        log_step(
+            "CONFIRM",
+            (
+                f"{project_dir.name}: confirmations synced "
+                f"(total={confirmation_sync.get('total', 0)}, created={confirmation_sync.get('created', 0)})"
+            ),
+        )
         input_files = list_requirement_inputs(project_dir)
         processing_state = input_state_manager.load_processing_state(project_dir)
         summary_rows: list[list[str]] = []
@@ -2393,6 +2443,14 @@ def main() -> None:
         )
         dependency_manager.write_dependency_map(project_dir)
         log_step("OPS", f"{project_dir.name}: project flow, traceability summary, and dependency map refreshed.")
+        confirmation_sync = confirmation_manager.sync_confirmations_from_status(project_dir)
+        log_step(
+            "CONFIRM",
+            (
+                f"{project_dir.name}: confirmations refreshed "
+                f"(total={confirmation_sync.get('total', 0)}, created={confirmation_sync.get('created', 0)})"
+            ),
+        )
         if summary_rows:
             console_logger.simple_table(
                 title=f"Input Processing Summary: {project_dir.name}",

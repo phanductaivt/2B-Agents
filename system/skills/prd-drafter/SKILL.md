@@ -62,7 +62,7 @@ Customers need to see order status in the self-service portal.
 The business wants to reduce support calls in the first release.
 ```
 
-What a BA or PO should notice:
+What a BA should notice:
 - the problem is lack of visibility, not only missing portal screens
 - the goal should connect to fewer support calls and better confidence
 - the first release may only need a small status set

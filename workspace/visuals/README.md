@@ -8,6 +8,6 @@ Open these in VS Code with Mermaid preview:
 - `playbook-flow.md`
 - `project-flow-template.md`
 
-Use these files to explain the flow to BA/PO users.
+Use these files to explain the flow to BA and delivery users.
 
 <!-- TODO: Add a short glossary for Mermaid symbols used in these diagrams. -->

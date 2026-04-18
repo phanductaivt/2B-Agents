@@ -7,5 +7,4 @@
 - Affected Requirements:
 - Reason:
 
-<!-- TODO: Optional snapshots can be saved in outputs/generated/<requirement-name>/history/. -->
-
+<!-- TODO: Optional snapshots can be saved in _ops/generated/<requirement-name>/history/. -->

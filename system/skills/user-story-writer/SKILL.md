@@ -13,7 +13,7 @@ Convert clarified requirements into user stories that are easy for product and d
 Use this skill when:
 - the feature goal is clear enough to write a story
 - a backlog item needs a standard story format
-- a BA or PO wants a first draft for refinement
+- a BA wants a first draft for refinement
 
 ## Input Format
 

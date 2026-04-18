@@ -1,0 +1,288 @@
+documents:
+  01-input/notes/meeting-notes/meeting-001.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements:
+    - req-001
+    impacted_artifacts:
+    - acceptance-criteria
+    - brd
+    - clarification
+    - dependency-map
+    - feature-list
+    - frs
+    - process-bpmn
+    - requirement-traceability-flow
+    - requirement-traceability-matrix
+    - review
+    - risk-notes
+    - test-cases
+    - ui
+    - user-story
+    - wireframe
+    impacted_stages:
+    - ba-core
+    - clarification
+    - design
+    - fe-prototype
+    - review
+    reason:
+    - Input notes update can affect BA/Design/FE outputs.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  01-input/requirements/req-001.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements:
+    - req-001
+    impacted_artifacts:
+    - acceptance-criteria
+    - brd
+    - clarification
+    - dependency-map
+    - feature-list
+    - frs
+    - process-bpmn
+    - requirement-traceability-flow
+    - requirement-traceability-matrix
+    - review
+    - risk-notes
+    - test-cases
+    - ui
+    - user-story
+    - wireframe
+    impacted_stages:
+    - ba-core
+    - clarification
+    - design
+    - fe-prototype
+    - review
+    reason:
+    - Requirement update can affect BA/Design/FE outputs for req-001.
+    last_edit_at: '2026-04-18 11:20:32'
+    last_evaluated_at: '2026-04-18 11:20:32'
+  02-output/ba/req-001-acceptance-criteria.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/ba/req-001-brd.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/ba/req-001-clarification.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/ba/req-001-feature-list.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/ba/req-001-frs.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/ba/req-001-process-bpmn.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/ba/req-001-user-story.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/design/req-001-process-bpmn.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/design/req-001-wireframe.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  02-output/fe/req-001-ui.html:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  04-knowledge/business-rules.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements:
+    - req-001
+    impacted_artifacts:
+    - acceptance-criteria
+    - brd
+    - clarification
+    - dependency-map
+    - feature-list
+    - frs
+    - process-bpmn
+    - requirement-traceability-flow
+    - requirement-traceability-matrix
+    - review
+    - risk-notes
+    - test-cases
+    - ui
+    - user-story
+    - wireframe
+    impacted_stages:
+    - ba-core
+    - clarification
+    - design
+    - fe-prototype
+    - review
+    reason:
+    - business-rules update can affect BA/Design/FE outputs across the project.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  04-knowledge/glossary.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - No downstream impact rule.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  04-knowledge/notes.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements:
+    - req-001
+    impacted_artifacts:
+    - acceptance-criteria
+    - brd
+    - clarification
+    - dependency-map
+    - feature-list
+    - frs
+    - process-bpmn
+    - requirement-traceability-flow
+    - requirement-traceability-matrix
+    - review
+    - risk-notes
+    - test-cases
+    - ui
+    - user-story
+    - wireframe
+    impacted_stages:
+    - ba-core
+    - clarification
+    - design
+    - fe-prototype
+    - review
+    reason:
+    - knowledge notes update can affect BA/Design/FE outputs across the project.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  _ops/confirmations/decisions-log.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - Decision/confirmation update can affect blocker visibility and recommendation
+      state.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  _ops/confirmations/pending-confirmations.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - Decision/confirmation update can affect blocker visibility and recommendation
+      state.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+  _ops/decision-log.md:
+    stale_state: fresh
+    manual_override: false
+    rerun_recommendation: none
+    impacted_requirements: []
+    impacted_artifacts: []
+    impacted_stages: []
+    reason:
+    - Decision/confirmation update can affect blocker visibility and recommendation
+      state.
+    last_edit_at: ''
+    last_evaluated_at: '2026-04-18 11:06:17'
+version: '1'
+updated_at: '2026-04-18 13:53:59'

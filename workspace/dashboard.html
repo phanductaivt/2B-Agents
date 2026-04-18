@@ -38,6 +38,7 @@ tbody tr:hover { background: #f0f9ff; }
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
 .card { background: white; border: 1px solid #e5e7eb; padding: 14px; border-radius: 10px; }
 .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.card-subtitle { margin: 10px 0 6px; font-size: 13px; color: #374151; text-transform: uppercase; letter-spacing: 0.02em; }
 .card-links { display: flex; gap: 10px; margin-top: 8px; }
 .card-links a { color: #0b6efd; text-decoration: none; font-size: 12px; }
 .muted { color: #6b7280; font-size: 12px; }
@@ -51,6 +52,7 @@ tbody tr:hover { background: #f0f9ff; }
   tbody tr:nth-child(even) { background: #0f172a; }
   tbody tr:hover { background: #1f2937; }
   header p, .muted, .progress-label { color: #9ca3af; }
+  .card-subtitle { color: #cbd5e1; }
   .filter-bar button { background: #111827; color: #e5e7eb; border-color: #374151; }
   .filter-bar button.active { background: #2563eb; border-color: #2563eb; }
   .filter-bar input { background: #111827; color: #e5e7eb; border-color: #374151; }
@@ -61,8 +63,8 @@ tbody tr:hover { background: #f0f9ff; }
 <div class="page">
 <header>
 <h1>Project Dashboard</h1>
-<p>Manage all BA/PO projects in one place.</p>
-<p class="muted">Last updated: 2026-04-15</p>
+<p>Manage all BA and delivery projects in one place.</p>
+<p class="muted">Last updated: 2026-04-18</p>
 <div class="top-links">
 <a href="../projects/">Open projects folder</a>
 <a href="./dashboard.md">Open dashboard.md</a>
@@ -71,8 +73,8 @@ tbody tr:hover { background: #f0f9ff; }
 </header>
 <section class="summary">
 <div class="tile"><div class="label">Total Projects</div><div class="value">2</div></div>
-<div class="tile"><div class="label">Active Projects</div><div class="value">2</div></div>
-<div class="tile"><div class="label">Blocked Projects</div><div class="value">0</div></div>
+<div class="tile"><div class="label">Active Projects</div><div class="value">0</div></div>
+<div class="tile"><div class="label">Blocked Projects</div><div class="value">2</div></div>
 <div class="tile"><div class="label">Done Projects</div><div class="value">0</div></div>
 </section>
 <section class="filter-bar">
@@ -84,36 +86,38 @@ tbody tr:hover { background: #f0f9ff; }
 </section>
 <section>
 <table>
-<thead><tr><th>Project</th><th>Stage</th><th>Progress</th><th>Status</th><th>Last Update</th><th>Link</th></tr></thead>
+<thead><tr><th>Project</th><th>Project Phase</th><th>Project Readiness</th><th>Project Owner</th><th>Project Status</th><th>Last Update</th><th>Link</th></tr></thead>
 <tbody>
-<tr class="data-row" data-status="active" data-name="loyalty-feature-expansion">
+<tr class="data-row" data-status="blocked" data-name="loyalty-feature-expansion">
 <td class="project-name">loyalty-feature-expansion</td>
 <td>Analysis</td>
 <td>
 <div class="progress-wrap">
-<span class="progress-label">100%</span>
-<div class="progress-bar active">
-<div class="progress-fill" style="width:100%"></div>
+<span class="progress-label">90%</span>
+<div class="progress-bar blocked">
+<div class="progress-fill" style="width:90%"></div>
 </div>
 </div>
 </td>
-<td><span class="badge active">Active</span></td>
+<td>Product Analysis Team</td>
+<td><span class="badge blocked">Blocked</span></td>
 <td>2026-04-15</td>
 <td><a href="../projects/loyalty-feature-expansion/">Open</a></td>
 </tr>
-<tr class="data-row" data-status="active" data-name="ticket-booking-improvement">
+<tr class="data-row" data-status="blocked" data-name="ticket-booking-improvement">
 <td class="project-name">ticket-booking-improvement</td>
 <td>Analysis</td>
 <td>
 <div class="progress-wrap">
-<span class="progress-label">100%</span>
-<div class="progress-bar active">
-<div class="progress-fill" style="width:100%"></div>
+<span class="progress-label">90%</span>
+<div class="progress-bar blocked">
+<div class="progress-fill" style="width:90%"></div>
 </div>
 </div>
 </td>
-<td><span class="badge active">Active</span></td>
-<td>2026-04-15</td>
+<td>BA Team</td>
+<td><span class="badge blocked">Blocked</span></td>
+<td>2026-04-18</td>
 <td><a href="../projects/ticket-booking-improvement/">Open</a></td>
 </tr>
 </tbody>
@@ -122,19 +126,34 @@ tbody tr:hover { background: #f0f9ff; }
 <section>
 <h2>Project Cards</h2>
 <div class="cards">
-<div class="card" data-status="active" data-name="loyalty-feature-expansion">
+<div class="card" data-status="blocked" data-name="loyalty-feature-expansion">
 <div class="card-header">
 <h3>loyalty-feature-expansion</h3>
-<span class="badge active">Active</span>
+<span class="badge blocked">Blocked</span>
 </div>
-<p class="muted">Stage: Analysis</p>
-<p class="muted">Owner: Product Analysis Team</p>
+<h4 class="card-subtitle">Project Summary</h4>
+<p class="muted">Project Phase: Analysis</p>
+<p class="muted">Project Owner: Product Analysis Team</p>
 <div class="progress-wrap">
-<span class="progress-label">100%</span>
-<div class="progress-bar active">
-<div class="progress-fill" style="width:100%"></div>
+<span class="progress-label">90%</span>
+<div class="progress-bar blocked">
+<div class="progress-fill" style="width:90%"></div>
 </div>
 </div>
+<p class="muted">Project Readiness (Milestones): 90%</p>
+<h4 class="card-subtitle">Execution Snapshot</h4>
+<p class="muted">Current Execution Stage: ba-core</p>
+<p class="muted">Current Execution Owner: BA Agent</p>
+<div class="progress-wrap">
+<span class="progress-label">80%</span>
+<div class="progress-bar blocked">
+<div class="progress-fill" style="width:80%"></div>
+</div>
+</div>
+<p class="muted">Artifact Completion Rate: 80%</p>
+<p class="muted">Gate Summary: 12 Pass | 3 Warning | 0 Fail | 0 Not Allowed</p>
+<p class="muted">Pending Confirmations: 1 (needs-more-info: 0)</p>
+<p class="muted">Blocked Reason: Waiting for loyalty policy confirmation.</p>
 <ul><li>Waiting for loyalty policy confirmation.</li></ul>
 <div class="card-links">
 <a href="../projects/loyalty-feature-expansion/">Project Folder</a>
@@ -142,19 +161,34 @@ tbody tr:hover { background: #f0f9ff; }
 <a href="../projects/loyalty-feature-expansion/02-output/">Outputs</a>
 </div>
 </div>
-<div class="card" data-status="active" data-name="ticket-booking-improvement">
+<div class="card" data-status="blocked" data-name="ticket-booking-improvement">
 <div class="card-header">
 <h3>ticket-booking-improvement</h3>
-<span class="badge active">Active</span>
+<span class="badge blocked">Blocked</span>
 </div>
-<p class="muted">Stage: Analysis</p>
-<p class="muted">Owner: BA Team</p>
+<h4 class="card-subtitle">Project Summary</h4>
+<p class="muted">Project Phase: Analysis</p>
+<p class="muted">Project Owner: BA Team</p>
 <div class="progress-wrap">
-<span class="progress-label">100%</span>
-<div class="progress-bar active">
-<div class="progress-fill" style="width:100%"></div>
+<span class="progress-label">90%</span>
+<div class="progress-bar blocked">
+<div class="progress-fill" style="width:90%"></div>
 </div>
 </div>
+<p class="muted">Project Readiness (Milestones): 90%</p>
+<h4 class="card-subtitle">Execution Snapshot</h4>
+<p class="muted">Current Execution Stage: ba-core</p>
+<p class="muted">Current Execution Owner: BA Agent</p>
+<div class="progress-wrap">
+<span class="progress-label">80%</span>
+<div class="progress-bar blocked">
+<div class="progress-fill" style="width:80%"></div>
+</div>
+</div>
+<p class="muted">Artifact Completion Rate: 80%</p>
+<p class="muted">Gate Summary: 12 Pass | 3 Warning | 0 Fail | 0 Not Allowed</p>
+<p class="muted">Pending Confirmations: 1 (needs-more-info: 0)</p>
+<p class="muted">Blocked Reason: Waiting for confirmation on fee disclosure policy.</p>
 <ul><li>Waiting for confirmation on fee disclosure policy.</li></ul>
 <div class="card-links">
 <a href="../projects/ticket-booking-improvement/">Project Folder</a>
@@ -167,7 +201,16 @@ tbody tr:hover { background: #f0f9ff; }
 <section>
 <h2>Blocked Projects</h2>
 <div class="blocked-list">
-<p class="muted">No blocked projects.</p>
+<div class="blocked-card">
+<strong>loyalty-feature-expansion</strong> — Project Phase: Analysis
+<ul><li>Waiting for loyalty policy confirmation.</li></ul>
+<p><a href="../projects/loyalty-feature-expansion/">Open project</a></p>
+</div>
+<div class="blocked-card">
+<strong>ticket-booking-improvement</strong> — Project Phase: Analysis
+<ul><li>Waiting for confirmation on fee disclosure policy.</li></ul>
+<p><a href="../projects/ticket-booking-improvement/">Open project</a></p>
+</div>
 </div>
 </section>
 </div>

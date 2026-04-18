@@ -2,8 +2,8 @@
 
 ## Project Overview
 - Project Name: ticket-booking-improvement
-- Current Stage: Analysis
-- Last Updated: 2026-04-15
+- Current Stage: Draft
+- Last Updated: 2026-04-18
 
 ## High-Level Flow
 

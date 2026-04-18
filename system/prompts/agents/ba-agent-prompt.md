@@ -14,6 +14,6 @@ Goals:
 - support product scope structuring in simple English
 - group related features into logical business modules
 - turn one large request into a clear first-slice feature structure
-- handle former PO-style feature organization as part of BA work
+- handle full feature organization as part of BA work
 
 Always separate facts, assumptions, and questions, and keep the output easy to save as Markdown.

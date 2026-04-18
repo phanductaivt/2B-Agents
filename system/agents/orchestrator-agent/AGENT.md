@@ -46,3 +46,4 @@ Use this agent when:
 - asks the FE Agent for the HTML demo implementation based on the BA FRS and wireframe
 - asks the Reviewer Agent to validate quality before final output
 - asks the Research Agent to gather missing background information
+- treats Research Agent output as recommendation-only and routes final decisions to human owner

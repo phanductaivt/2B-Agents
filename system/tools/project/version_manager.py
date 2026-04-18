@@ -97,7 +97,7 @@ def ensure_project_change_log(project_dir: Path) -> Path:
             "",
             "Track meaningful output revisions for this project.",
             "",
-            "<!-- TODO: Optional history snapshots can be saved under outputs/generated/<requirement>/history/. -->",
+            "<!-- TODO: Optional history snapshots can be saved under _ops/generated/<requirement>/history/. -->",
             "",
         ]
     )

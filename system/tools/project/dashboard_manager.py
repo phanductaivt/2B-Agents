@@ -5,6 +5,11 @@ import importlib.util
 from pathlib import Path
 import sys
 
+try:
+    import yaml
+except ImportError:
+    yaml = None
+
 
 def _load_module(module_name: str, file_path: Path):
     spec = importlib.util.spec_from_file_location(module_name, file_path)
@@ -24,6 +29,14 @@ _PATHS = _load_module(
     "project_paths_for_dashboard_manager",
     Path(__file__).resolve().parent / "project_paths.py",
 )
+_SEMANTICS = _load_module(
+    "semantic_mapper_for_dashboard_manager",
+    Path(__file__).resolve().parent / "semantic_mapper.py",
+)
+_SUMMARY = _load_module(
+    "summary_reader_for_dashboard_manager",
+    Path(__file__).resolve().parent / "summary_reader.py",
+)
 
 
 def _today() -> str:
@@ -31,50 +44,89 @@ def _today() -> str:
 
 
 def _read_text(path: Path) -> str:
-    if not path.exists():
-        return ""
-    return path.read_text(encoding="utf-8")
+    return _SUMMARY.read_text(path)
 
 
 def _line_value(lines: list[str], prefix: str) -> str:
-    for line in lines:
-        if line.strip().startswith(prefix):
-            return line.split(":", 1)[1].strip()
-    return ""
+    return _SUMMARY.line_value(lines, [prefix])
 
 
 def _collect_section(lines: list[str], header: str) -> list[str]:
-    items: list[str] = []
-    in_section = False
-    for line in lines:
-        if line.strip() == header:
-            in_section = True
-            continue
-        if in_section and line.startswith("## "):
-            break
-        if in_section and line.strip().startswith("- "):
-            items.append(line.strip()[2:])
-    return items
+    return _SUMMARY.collect_section(lines, header)
 
 
 def _parse_requirements(lines: list[str]) -> list[tuple[str, str]]:
-    rows: list[tuple[str, str]] = []
-    in_table = False
-    for line in lines:
-        if line.strip() == "| Requirement | Current Status | BA | UXUI | FE | Reviewer | Notes |":
-            in_table = True
-            continue
-        if in_table and not line.strip().startswith("|"):
-            break
-        if in_table and line.strip().startswith("|"):
-            columns = [col.strip() for col in line.strip("|").split("|")]
-            if columns and columns[0] == "Requirement":
-                continue
-            if columns and set(columns[0]) == {"-"}:
-                continue
-            if len(columns) >= 2 and columns[0]:
-                rows.append((columns[0], columns[1]))
-    return rows
+    parsed = _SUMMARY.parse_requirements_table(lines)
+    return [(row.get("requirement_name", ""), row.get("current_status", "")) for row in parsed if row.get("requirement_name")]
+
+
+def _display_requirement_status(raw_status: str, project_status: str) -> str:
+    return _SEMANTICS.normalize_requirement_display_status(raw_status, project_status)
+
+
+def _build_execution_model(project_dir: Path, blockers: list[str]) -> dict[str, object]:
+    artifact_rows = _SUMMARY.gather_artifact_rows(project_dir, _PATHS)
+    gate_rows = _SUMMARY.gather_gate_rows(project_dir, _PATHS)
+
+    confirmation = _confirmation_items(project_dir)
+    confirmation_blockers = _SEMANTICS.parse_confirmation_blockers(confirmation)
+    return _SEMANTICS.execution_snapshot(
+        artifact_rows=artifact_rows,
+        gate_rows=gate_rows,
+        project_blockers=blockers,
+        confirmation_blockers=confirmation_blockers,
+    )
+
+
+def _build_project_summary_model(
+    project_dir: Path,
+    status_lines: list[str],
+    requirements: list[tuple[str, str]],
+    blockers: list[str],
+    execution: dict[str, object],
+) -> dict[str, object]:
+    project_phase = (
+        _line_value(status_lines, "- Project Phase:")
+        or _line_value(status_lines, "- Current Stage:")
+        or "Draft"
+    )
+    project_owner = (
+        _line_value(status_lines, "- Project Owner:")
+        or _line_value(status_lines, "- Owner:")
+        or "BA Team"
+    )
+    last_update = _line_value(status_lines, "- Last Updated:") or _today()
+    overall_progress = _line_value(status_lines, "- Overall Progress:") or "Not Started"
+
+    total_requirements = len(requirements)
+    done_requirements = sum(1 for _, status in requirements if status.lower() == "done")
+    project_status, project_progress = _SEMANTICS.project_status_and_readiness(
+        requirement_statuses=[status for _, status in requirements],
+        blockers=blockers,
+        project_phase=project_phase,
+        overall_progress_text=overall_progress,
+    )
+
+    return {
+        "project_name": _line_value(status_lines, "- Project Name:") or project_dir.name,
+        "project_phase": project_phase,
+        "project_owner": project_owner,
+        "project_status": project_status,
+        "project_progress": project_progress,
+        "last_update": last_update,
+        "requirement_count": total_requirements,
+        "done_requirement_count": done_requirements,
+        "overall_progress_text": overall_progress,
+        "execution_model": execution,
+    }
+
+
+def _confirmation_items(project_dir: Path) -> list[dict[str, object]]:
+    return _SUMMARY.load_confirmation_items(project_dir, _PATHS, yaml)
+
+
+def _confirmation_summary(project_dir: Path) -> dict[str, int]:
+    return _SUMMARY.confirmation_summary(_confirmation_items(project_dir))
 
 
 def discover_projects(projects_dir: Path) -> list[Path]:
@@ -103,44 +155,42 @@ def build_dashboard(projects_dir: Path) -> str:
         total += 1
         status_path = _PATHS.status_path(project_dir)
         status_lines = _read_text(status_path).splitlines()
-        project_name = _line_value(status_lines, "- Project Name:") or project_dir.name
-        owner = _line_value(status_lines, "- Owner:") or "BA Team"
-        stage = _line_value(status_lines, "- Current Stage:") or "Draft"
-        progress = _line_value(status_lines, "- Overall Progress:") or "Not Started"
-        last_updated = _line_value(status_lines, "- Last Updated:") or _today()
-
         requirements = _parse_requirements(status_lines)
-        req_count = str(len(requirements)) if requirements else "0"
-
         blockers = _collect_section(status_lines, "## Current Blockers")
-        blocker_count = "0" if not blockers else str(len(blockers))
+        execution = _build_execution_model(project_dir, blockers)
+        summary = _build_project_summary_model(
+            project_dir=project_dir,
+            status_lines=status_lines,
+            requirements=requirements,
+            blockers=blockers,
+            execution=execution,
+        )
+        project_name = str(summary["project_name"])
+        project_phase = str(summary["project_phase"])
+        project_owner = str(summary["project_owner"])
+        project_status = str(summary["project_status"])
+        project_progress = int(summary["project_progress"])
+        last_updated = str(summary["last_update"])
+        requirement_count = int(summary["requirement_count"])
+        execution_stage = str(execution.get("current_execution_stage", "Not Started"))
+        execution_owner = str(execution.get("current_execution_owner", "-"))
+        artifact_completion_rate = int(execution.get("artifact_completion_rate", 0))
+        gate_summary = str(execution.get("gate_summary", "No gate data"))
+        artifact_statuses = str(execution.get("current_artifact_statuses", "No artifact data"))
+        blocked_reason = str(execution.get("blocked_reason", "No blocker reason recorded."))
+        confirmation = _confirmation_summary(project_dir)
 
-        status_label = "Active"
-        if stage.lower() == "blocked":
-            status_label = "Blocked"
+        if project_status == "Blocked":
             blocked += 1
-        elif progress.lower() in {"done", "completed"} or stage.lower() == "done":
-            status_label = "Done"
+        elif project_status == "Done":
             completed += 1
         else:
             active += 1
 
-        done_count = sum(1 for _, status in requirements if status.lower() == "done")
-        in_progress_count = sum(1 for _, status in requirements if status.lower() == "in progress")
-        if requirements:
-            if done_count == len(requirements):
-                progress_percent = "100%"
-            elif done_count > 0 or in_progress_count > 0:
-                progress_percent = "60%"
-            else:
-                progress_percent = "0%"
-        else:
-            progress_percent = "0%"
-
         status_icon = "🟡"
-        if status_label == "Done":
+        if project_status == "Done":
             status_icon = "🟢"
-        if status_label == "Blocked":
+        if project_status == "Blocked":
             status_icon = "🔴"
 
         project_rows.append(
@@ -148,18 +198,26 @@ def build_dashboard(projects_dir: Path) -> str:
             + " | ".join(
                 [
                     project_name,
-                    stage,
-                    progress_percent,
-                    f"{status_icon} {status_label}",
+                    project_phase,
+                    f"{project_progress}%",
+                    project_owner,
+                    f"{status_icon} {project_status}",
                     f"[Open](../projects/{project_dir.name}/)",
                 ]
             )
             + " |"
         )
 
-        requirement_lines = [f"  - {name}: {status}" for name, status in requirements]
+        display_done_count = 0
+        requirement_lines = []
+        for name, status in requirements:
+            display_status = _display_requirement_status(status, project_status)
+            if display_status in {"Processed", "Approved"}:
+                display_done_count += 1
+            requirement_lines.append(f"  - {name}: {display_status}")
         if not requirement_lines:
             requirement_lines = ["  - No requirements tracked yet"]
+        requirement_summary_label = "approved" if project_status == "Done" else "processed"
 
         risk_lines = _collect_section(status_lines, "## Current Risks") or ["Risk list not started"]
         blocker_lines = blockers or ["No blockers listed"]
@@ -178,9 +236,24 @@ def build_dashboard(projects_dir: Path) -> str:
             [
                 f"## Project: {project_name}",
                 "",
-                f"- Current Stage: {stage}",
-                f"- Overall Progress: {progress_percent}",
-                f"- Owner: {owner}",
+                "### Project Summary",
+                f"- Project Phase: {project_phase}",
+                f"- Project Owner: {project_owner}",
+                f"- Project Status: {project_status}",
+                f"- Project Readiness: {project_progress}%",
+                f"- Last Update: {last_updated}",
+                "",
+                "### Execution Snapshot",
+                f"- Current Execution Stage: {execution_stage}",
+                f"- Current Execution Owner: {execution_owner}",
+                f"- Artifact Completion Rate: {artifact_completion_rate}%",
+                f"- Gate Summary: {gate_summary}",
+                f"- Current Artifact Statuses: {artifact_statuses}",
+                f"- Pending Confirmations: {confirmation['pending']} (needs-more-info: {confirmation['needs_more_info']})",
+                f"- Blocked Reason: {blocked_reason if project_status == 'Blocked' else 'N/A'}",
+                "",
+                "### Requirement Summary",
+                f"- Requirements: {display_done_count}/{requirement_count} {requirement_summary_label}",
                 "- Requirements:",
                 *requirement_lines,
                 "- Current Risks:",
@@ -210,8 +283,8 @@ def build_dashboard(projects_dir: Path) -> str:
         "",
         "## 2. Status Highlight Table",
         "",
-        "| Project | Stage | Progress | Status | Link |",
-        "|--------|------|----------|--------|------|",
+        "| Project | Project Phase | Project Readiness | Project Owner | Project Status | Link |",
+        "|--------|---------------|------------------|---------------|----------------|------|",
         *project_rows,
         "",
         "## 3. Status Breakdown (Pie)",
@@ -263,54 +336,55 @@ def build_dashboard_html(projects_dir: Path) -> str:
         total += 1
         status_path = _PATHS.status_path(project_dir)
         status_lines = _read_text(status_path).splitlines()
-        project_name = _line_value(status_lines, "- Project Name:") or project_dir.name
-        stage = _line_value(status_lines, "- Current Stage:") or "Draft"
-        progress = _line_value(status_lines, "- Overall Progress:") or "Not Started"
-        owner = _line_value(status_lines, "- Owner:") or "BA Team"
-        last_updated = _line_value(status_lines, "- Last Updated:") or last_updated
-
+        requirements = _parse_requirements(status_lines)
         blockers = _collect_section(status_lines, "## Current Blockers")
-        status_label = "Active"
+        execution = _build_execution_model(project_dir, blockers)
+        summary = _build_project_summary_model(
+            project_dir=project_dir,
+            status_lines=status_lines,
+            requirements=requirements,
+            blockers=blockers,
+            execution=execution,
+        )
+        project_name = str(summary["project_name"])
+        project_phase = str(summary["project_phase"])
+        project_owner = str(summary["project_owner"])
+        project_status = str(summary["project_status"])
+        project_progress = int(summary["project_progress"])
+        last_updated = str(summary["last_update"])
+        execution_stage = str(execution.get("current_execution_stage", "Not Started"))
+        execution_owner = str(execution.get("current_execution_owner", "-"))
+        artifact_completion_rate = int(execution.get("artifact_completion_rate", 0))
+        gate_summary = str(execution.get("gate_summary", "No gate data"))
+        blocked_reason = str(execution.get("blocked_reason", "No blocker reason recorded."))
+        confirmation = _confirmation_summary(project_dir)
+
         status_class = "active"
-        if stage.lower() == "blocked":
-            status_label = "Blocked"
+        if project_status == "Blocked":
             status_class = "blocked"
             blocked += 1
-        elif progress.lower() in {"done", "completed"} or stage.lower() == "done":
-            status_label = "Done"
+        elif project_status == "Done":
             status_class = "done"
             done += 1
         else:
             active += 1
 
-        requirements = _parse_requirements(status_lines)
-        done_count = sum(1 for _, status in requirements if status.lower() == "done")
-        in_progress_count = sum(1 for _, status in requirements if status.lower() == "in progress")
-        if requirements:
-            if done_count == len(requirements):
-                progress_percent = 100
-            elif done_count > 0 or in_progress_count > 0:
-                progress_percent = 60
-            else:
-                progress_percent = 0
-        else:
-            progress_percent = 0
-
         rows.append(
             "\n".join(
                 [
-                    f"<tr class=\"data-row\" data-status=\"{status_label.lower()}\" data-name=\"{project_name.lower()}\">",
+                    f"<tr class=\"data-row\" data-status=\"{project_status.lower()}\" data-name=\"{project_name.lower()}\">",
                     f"<td class=\"project-name\">{project_name}</td>",
-                    f"<td>{stage}</td>",
+                    f"<td>{project_phase}</td>",
                     "<td>",
                     "<div class=\"progress-wrap\">",
-                    f"<span class=\"progress-label\">{progress_percent}%</span>",
+                    f"<span class=\"progress-label\">{project_progress}%</span>",
                     f"<div class=\"progress-bar {status_class}\">",
-                    f"<div class=\"progress-fill\" style=\"width:{progress_percent}%\"></div>",
+                    f"<div class=\"progress-fill\" style=\"width:{project_progress}%\"></div>",
                     "</div>",
                     "</div>",
                     "</td>",
-                    f"<td><span class=\"badge {status_class}\">{status_label}</span></td>",
+                    f"<td>{project_owner}</td>",
+                    f"<td><span class=\"badge {status_class}\">{project_status}</span></td>",
                     f"<td>{last_updated}</td>",
                     f"<td><a href=\"../projects/{project_dir.name}/\">Open</a></td>",
                     "</tr>",
@@ -325,19 +399,38 @@ def build_dashboard_html(projects_dir: Path) -> str:
 
         card = "\n".join(
             [
-                f"<div class=\"card\" data-status=\"{status_label.lower()}\" data-name=\"{project_name.lower()}\">",
+                f"<div class=\"card\" data-status=\"{project_status.lower()}\" data-name=\"{project_name.lower()}\">",
                 "<div class=\"card-header\">",
                 f"<h3>{project_name}</h3>",
-                f"<span class=\"badge {status_class}\">{status_label}</span>",
+                f"<span class=\"badge {status_class}\">{project_status}</span>",
                 "</div>",
-                f"<p class=\"muted\">Stage: {stage}</p>",
-                f"<p class=\"muted\">Owner: {owner}</p>",
+                "<h4 class=\"card-subtitle\">Project Summary</h4>",
+                f"<p class=\"muted\">Project Phase: {project_phase}</p>",
+                f"<p class=\"muted\">Project Owner: {project_owner}</p>",
                 "<div class=\"progress-wrap\">",
-                f"<span class=\"progress-label\">{progress_percent}%</span>",
+                f"<span class=\"progress-label\">{project_progress}%</span>",
                 f"<div class=\"progress-bar {status_class}\">",
-                f"<div class=\"progress-fill\" style=\"width:{progress_percent}%\"></div>",
+                f"<div class=\"progress-fill\" style=\"width:{project_progress}%\"></div>",
                 "</div>",
                 "</div>",
+                f"<p class=\"muted\">Project Readiness (Milestones): {project_progress}%</p>",
+                "<h4 class=\"card-subtitle\">Execution Snapshot</h4>",
+                f"<p class=\"muted\">Current Execution Stage: {execution_stage}</p>",
+                f"<p class=\"muted\">Current Execution Owner: {execution_owner}</p>",
+                "<div class=\"progress-wrap\">",
+                f"<span class=\"progress-label\">{artifact_completion_rate}%</span>",
+                f"<div class=\"progress-bar {status_class}\">",
+                f"<div class=\"progress-fill\" style=\"width:{artifact_completion_rate}%\"></div>",
+                "</div>",
+                "</div>",
+                f"<p class=\"muted\">Artifact Completion Rate: {artifact_completion_rate}%</p>",
+                f"<p class=\"muted\">Gate Summary: {gate_summary}</p>",
+                f"<p class=\"muted\">Pending Confirmations: {confirmation['pending']} (needs-more-info: {confirmation['needs_more_info']})</p>",
+                (
+                    f"<p class=\"muted\">Blocked Reason: {blocked_reason}</p>"
+                    if project_status == "Blocked"
+                    else "<p class=\"muted\">Blocked Reason: N/A</p>"
+                ),
                 blocker_html if blocker_html else "<p class=\"muted\">No blockers listed.</p>",
                 "<div class=\"card-links\">",
                 f"<a href=\"../projects/{project_dir.name}/\">Project Folder</a>",
@@ -349,12 +442,12 @@ def build_dashboard_html(projects_dir: Path) -> str:
         )
         cards.append(card)
 
-        if status_label == "Blocked":
+        if project_status == "Blocked":
             blocked_cards.append(
                 "\n".join(
                     [
                         "<div class=\"blocked-card\">",
-                        f"<strong>{project_name}</strong> — Stage: {stage}",
+                        f"<strong>{project_name}</strong> — Project Phase: {project_phase}",
                         blocker_html if blocker_html else "<p>No blocker details.</p>",
                         f"<p><a href=\"../projects/{project_dir.name}/\">Open project</a></p>",
                         "</div>",
@@ -404,6 +497,7 @@ def build_dashboard_html(projects_dir: Path) -> str:
             ".cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }",
             ".card { background: white; border: 1px solid #e5e7eb; padding: 14px; border-radius: 10px; }",
             ".card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }",
+            ".card-subtitle { margin: 10px 0 6px; font-size: 13px; color: #374151; text-transform: uppercase; letter-spacing: 0.02em; }",
             ".card-links { display: flex; gap: 10px; margin-top: 8px; }",
             ".card-links a { color: #0b6efd; text-decoration: none; font-size: 12px; }",
             ".muted { color: #6b7280; font-size: 12px; }",
@@ -417,6 +511,7 @@ def build_dashboard_html(projects_dir: Path) -> str:
             "  tbody tr:nth-child(even) { background: #0f172a; }",
             "  tbody tr:hover { background: #1f2937; }",
             "  header p, .muted, .progress-label { color: #9ca3af; }",
+            "  .card-subtitle { color: #cbd5e1; }",
             "  .filter-bar button { background: #111827; color: #e5e7eb; border-color: #374151; }",
             "  .filter-bar button.active { background: #2563eb; border-color: #2563eb; }",
             "  .filter-bar input { background: #111827; color: #e5e7eb; border-color: #374151; }",
@@ -427,7 +522,7 @@ def build_dashboard_html(projects_dir: Path) -> str:
             "<div class=\"page\">",
             "<header>",
             "<h1>Project Dashboard</h1>",
-            "<p>Manage all BA/PO projects in one place.</p>",
+            "<p>Manage all BA and delivery projects in one place.</p>",
             f"<p class=\"muted\">Last updated: {last_updated}</p>",
             "<div class=\"top-links\">",
             "<a href=\"../projects/\">Open projects folder</a>",
@@ -450,7 +545,7 @@ def build_dashboard_html(projects_dir: Path) -> str:
             "</section>",
             "<section>",
             "<table>",
-            "<thead><tr><th>Project</th><th>Stage</th><th>Progress</th><th>Status</th><th>Last Update</th><th>Link</th></tr></thead>",
+            "<thead><tr><th>Project</th><th>Project Phase</th><th>Project Readiness</th><th>Project Owner</th><th>Project Status</th><th>Last Update</th><th>Link</th></tr></thead>",
             "<tbody>",
             *rows,
             "</tbody>",
