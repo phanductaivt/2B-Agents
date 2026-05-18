@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for BA during output generation."
+---
 # Acceptance Criteria Writer
 
 ## Name
@@ -49,7 +57,7 @@ Use this skill when:
 
 - Acceptance criteria should tell the team when the story is done from a business point of view.
 - Good criteria describe visible behavior, not hidden system logic.
-- Always check for edge cases such as missing data, invalid status, approval rules, or out-of-scope scenarios.
+- Always check for edge cases such as missing data, invalid status, approval rules, or out-of-scope cases.
 - If a criterion cannot be tested or observed, it is usually too vague.
 - Given/When/Then phrasing helps keep the criteria unambiguous and testable.
 
@@ -70,7 +78,7 @@ What a BA should notice:
 ## Expected Markdown Outputs
 
 - `acceptance-criteria.md`
-- optional input to `review-notes.md`
+- optional input to `clarification.md`
 
 ## Example Markdown Output
 

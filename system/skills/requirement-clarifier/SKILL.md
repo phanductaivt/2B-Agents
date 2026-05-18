@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["PO", "BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for PO, BA during output generation."
+---
 # Requirement Clarifier
 
 ## Name
@@ -13,7 +21,7 @@ Turn rough stakeholder notes into a clearer and more structured requirement draf
 Use this skill when:
 - the request is vague
 - important business details are missing
-- the team needs clear follow-up questions before writing stories
+- the team needs clear follow-up questions before BA analysis expands beyond the PO BRD
 
 ## Input Format
 
@@ -72,7 +80,7 @@ What a BA should notice:
 ## Expected Markdown Outputs
 
 - `clarification.md`
-- optional input to `review-notes.md`
+- optional support note that clarifies the BRD before FRS, story, or BPMN work
 
 ## Example Markdown Output
 

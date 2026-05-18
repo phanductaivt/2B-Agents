@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["FE"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for FE during output generation."
+---
 # HTML Implementer
 
 ## Name

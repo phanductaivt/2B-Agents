@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for BA during output generation."
+---
 # Process Analyzer
 
 ## Name
@@ -69,7 +77,7 @@ What a BA should notice:
 ## Expected Markdown Outputs
 
 - `clarification.md`
-- `review-notes.md`
+- `clarification.md` or another BA artifact note section when important issues remain open
 
 ## Example Markdown Output
 

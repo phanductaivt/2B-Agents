@@ -1,0 +1,12 @@
+# FILE METADATA
+# file_type: Sample Raw Asset
+# primary_agents: PO, BA
+# supporting_agents: UIUX, FE
+# activation_mode: Reference Sample
+# lifecycle_stage: Project Sample Input
+# purpose: Show how raw source material can be parked as reference input before analysis.
+
+
+Customers want to change tickets online.
+They need to see fees first.
+If online change is not allowed, guide them to support.

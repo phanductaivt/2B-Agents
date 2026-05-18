@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for BA during output generation."
+---
 # BPMN Mermaid Writer
 
 ## Name

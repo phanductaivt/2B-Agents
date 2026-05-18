@@ -1,73 +1,56 @@
-# Projects Layer
+---
+file_type: "Project Guide"
+primary_agents: ["PO", "BA", "Architect", "Data", "BE", "UIUX", "FE", "QA", "Release"]
+supporting_agents: []
+activation_mode: "Manual Navigation"
+lifecycle_stage: "Project System"
+purpose: "Explain the project area, template usage, and active project flow."
+---
+# Projects
 
-This folder contains project-specific workspaces only.
+Projects are the main working surface.
 
-## What Belongs Here
+## Final Project Structure
 
-Each project is self-contained, including:
 - `README.md`
-- `project-config.yaml` (can define `scenario` and/or `domain`)
-- `01-input/` (daily input surface)
-- `02-output/` (daily curated output surface)
-- `03-guides/` (short working guide for BA/Design/FE)
-- `04-knowledge/` (project-specific knowledge)
-- `_ops/` (tracking, runtime, traceability, generated internals)
-  - `_ops/confirmations/` (pending confirmations + decisions)
+- `01-input/`
+- `02-output/`
+- `03-context/`
+- `02-output/app/`
+- `05-baselines/` when change requests are applied without Git rollback
 
-## What Does Not Belong Here
+## Daily Flow
 
-- Shared engine components (they are now in `system/`)
-- Cross-project dashboard and logs (they are now in `workspace/`)
+1. Copy `project-template/`
+2. Put business input into `01-input/`
+3. Add project context in `03-context/`
+4. Use the copy-ready prompts and terminal commands in `PROJECT_EXECUTION_GUIDE.md`
+5. Review the clarification gate in `02-output/ba/<req>-clarification.md`
+6. Approve with `Approved - Proceed` or `Approved - Proceed with assumptions`, or block and update input/context
+7. Continue with Architect, Data, BE, UIUX, FE, QA, and Release only after approval; Data includes metric tracking plans for PO feature-health decisions
+8. Review final artifacts and runnable code in `02-output/`
 
-## Dashboard
+Codex may recommend a decision, but it must not run downstream agents until user approval is explicit.
 
-Use:
-- `workspace/dashboard.md`
-- `workspace/dashboard.html`
+## Template
 
-Dashboard field meaning:
-- Project-level summary uses `Project Phase`, `Project Owner`, and `Project Readiness`.
-- Execution-level snapshot uses artifact metrics such as execution stage/owner, artifact completion rate, and gate summary.
+`project-template/` is a runnable reference template.
 
-## Execution
+It already contains one complete ticket date-change example across:
+- `01-input/`
+- `03-context/`
+- `02-output/`
+- `02-output/app/`
 
-Project execution remains the same:
-- read input from `projects/<project-name>/01-input/requirements/...`
-- write internal generated output to `projects/<project-name>/_ops/generated/...`
-- copy curated user-facing output to `projects/<project-name>/02-output/...`
-- review and resolve pending confirmations in `projects/<project-name>/_ops/confirmations/...`
+When creating a new project, copy `project-template/`, then replace the requirement, context, and generated outputs as needed.
 
-Source-of-truth rule:
-- `_ops/generated/` is runtime source-of-truth for execution, gates, traceability, and status.
-- `02-output/` is curated daily reading surface for BA/Design/FE users.
+## Change Requests
 
-Research confirmation rule:
-- confirmation items can include `Research Recommendation` and `Recommended Data`.
-- only human confirmation changes an item to `Confirmed Data`.
+Use `PROJECT_CHANGE_REQUEST_GUIDE.md` when a stable project receives a customer change request or customization request.
 
-Run examples:
+Change request files belong in:
+- `01-input/change-requests/` for CR intake
+- `02-output/change-analysis/` for impact analysis, regeneration plan, rollback plan, verification, and change log
+- `05-baselines/` for pre-apply snapshots when Git is not used
 
-```bash
-python3 app.py --project ticket-booking-improvement
-```
-
-```bash
-python3 app.py --project ticket-booking-improvement --requirement req-001.md --stage ba-core
-```
-
-```bash
-python3 app.py --dashboard
-```
-
-```bash
-python3 app.py --ops-console
-```
-
-```bash
-python3 app.py --decision-workspace
-```
-
-Visual guides:
-- [System Flow](../workspace/visuals/system-flow.md)
-- [Agent Flow](../workspace/visuals/agent-flow.md)
-- [Playbook Flow](../workspace/visuals/playbook-flow.md)
+Do not put post-baseline CR steps into `PROJECT_EXECUTION_GUIDE.md`. That guide is for creating a new project and running the initial product slice.

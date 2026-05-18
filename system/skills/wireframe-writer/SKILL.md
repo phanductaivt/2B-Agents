@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["UIUX"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for UIUX during output generation."
+---
 # Wireframe Writer
 
 ## Name

@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for BA during output generation."
+---
 # User Story Writer
 
 ## Name
@@ -72,7 +80,7 @@ What a BA should notice:
 ## Expected Markdown Outputs
 
 - `user-story.md`
-- optional input to `review-notes.md`
+- optional input to `clarification.md`
 
 ## Example Markdown Output
 

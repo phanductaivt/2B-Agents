@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for BA during output generation."
+---
 # Feature Breakdown Writer
 
 ## Name
@@ -6,7 +14,7 @@ Feature Breakdown Writer
 
 ## Purpose
 
-Help the BA Agent turn requirements, BRD, and FRS into a clear feature hierarchy and product structure.
+Help the BA agent turn the PO BRD, FRS, and first-slice scope into a clear feature hierarchy and product structure.
 
 ## When To Use
 

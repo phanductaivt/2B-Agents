@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for BA during output generation."
+---
 # FRS Drafter
 
 ## Name
@@ -11,13 +19,14 @@ Create an agile-style Functional Requirement Specification that explains what th
 ## When To Use
 
 Use this skill when:
-- the team needs a more functional handoff after the BRD
+- the team needs a more functional handoff after the PO BRD
 - BA outputs must become clearer for UX/UI and FE work
 - business rules need to become functional statements
 
 ## Input Format
 
 - clarification
+- BRD
 - user story
 - acceptance criteria
 - business rules
@@ -45,7 +54,7 @@ Use this skill when:
 5. Describe alternative flows for failures, exceptions, or business rule branches.
 6. Add business rules that control what is allowed, limited, or blocked.
 7. Add validations and rule-driven behavior.
-8. Add edge cases such as missing data, invalid status, or out-of-scope scenarios.
+8. Add edge cases such as missing data, invalid status, or out-of-scope cases.
 9. Note dependencies and open questions.
 
 ## Constraints

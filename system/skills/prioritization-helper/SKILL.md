@@ -1,3 +1,11 @@
+---
+file_type: "Skill"
+primary_agents: ["PO", "BA"]
+supporting_agents: []
+activation_mode: "Triggered By Need"
+lifecycle_stage: "System Core"
+purpose: "Provide a reusable capability for PO, BA during output generation."
+---
 # Prioritization Helper
 
 ## Name
@@ -6,7 +14,7 @@ Prioritization Helper
 
 ## Purpose
 
-Help the BA Agent compare work items using common prioritization methods such as RICE and MoSCoW.
+Help the PO or BA agent compare work items using common prioritization methods such as RICE and MoSCoW.
 
 ## When To Use
 
@@ -58,18 +66,18 @@ Example items:
 ```text
 1. Show order status in the customer portal
 2. Add export to CSV for internal users
-3. Redesign dashboard colors
+3. Marketing banner polish
 ```
 
-What a BA should notice:
+What a PO or BA should notice:
 - order status may have stronger business value because it reduces support calls
 - CSV export may help operations, but perhaps with lower customer impact
-- dashboard color changes may matter, but could rank lower if they do not solve a clear business problem
+- marketing banner polish may matter, but could rank lower if it does not solve the main business problem
 
 ## Expected Markdown Outputs
 
-- `review-notes.md`
-- optional prioritization section inside `brd.md` or another BA review file
+- a short note inside the relevant artifact when prioritization assumptions matter later
+- optional prioritization section inside `brd.md` or another framing artifact
 
 ## Example Markdown Output
 
@@ -82,10 +90,10 @@ MoSCoW
 ## Suggested Priority
 - Must Have: Show order status in the customer portal
 - Should Have: Add export to CSV for internal users
-- Could Have: Redesign dashboard colors
+- Could Have: Marketing banner polish
 
 ## Rationale
 - Order status directly supports a known business pain point.
 - CSV export is useful but less urgent.
-- Dashboard color changes do not solve the main problem.
+- Marketing banner polish does not solve the main problem.
 ```
