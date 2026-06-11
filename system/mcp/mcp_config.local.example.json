@@ -1,0 +1,18 @@
+{
+  "note": "Copy to a local ignored config location and replace placeholders. Do not commit real values.",
+  "env": {
+    "WORKSPACE_ROOT": "/absolute/path/to/workspace",
+    "GOOGLE_DRIVE_INPUT_FOLDER_ID": "drive-folder-id-for-input-only",
+    "GOOGLE_DRIVE_OUTPUT_FOLDER_ID": "drive-folder-id-for-approved-output",
+    "GOOGLE_DRIVE_REVIEW_FOLDER_ID": "drive-folder-id-for-review-output",
+    "GOOGLE_DRIVE_CLIENT_ID": "oauth-client-id-placeholder",
+    "GOOGLE_DRIVE_CLIENT_SECRET": "oauth-client-secret-placeholder",
+    "GOOGLE_DRIVE_TOKEN_PATH": "/absolute/path/outside/git/google-drive-token.json",
+    "GOOGLE_DRIVE_LOCAL_SYNC_ROOT": "/absolute/path/to/Google Drive/synced/folder",
+    "GOOGLE_DRIVE_BRIDGE_ENTRYPOINT": "/absolute/path/to/system/mcp/servers/google_drive/implementation/src/main.py",
+    "PROJECT_INPUT_DIR": "/absolute/path/to/project/inputs",
+    "PROJECT_OUTPUT_DIR": "/absolute/path/to/project/outputs",
+    "MCP_DRY_RUN": "true",
+    "MCP_LOG_LEVEL": "info"
+  }
+}

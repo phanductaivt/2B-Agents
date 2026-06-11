@@ -15,7 +15,8 @@ purpose: "Prevent breaking changes to existing runtime components during Compone
   - silent naming change
   - silent dependency change
 - required checks:
-  - inspect related runbooks, rules, guardrails, templates, and matrix references
+  - inspect related Agents, workflows, runbooks, rules, guardrails, templates,
+    output contracts, registries, and matrix references as applicable
   - inspect whether filenames or component names are already used elsewhere
 - stop condition:
   - the update would break current runtime assumptions without approval

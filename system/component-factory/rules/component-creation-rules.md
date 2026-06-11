@@ -18,6 +18,8 @@ Create a new component only when:
   - Runbook
   - Template
   - Artifact
+  - Agent
+  - Workflow
 - the new component has a clear runtime consumer
 - the new component solves a repeatable need, not a one-off situation
 

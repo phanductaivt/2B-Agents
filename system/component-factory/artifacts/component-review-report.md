@@ -21,6 +21,9 @@ purpose: "Provide the standard report structure used after reviewing a runtime c
 - scope:
 - dependency:
 - update safety:
+- registry alignment:
+- Agent contract completeness, when applicable:
+- Workflow contract completeness, when applicable:
 
 ## Recommendation
 

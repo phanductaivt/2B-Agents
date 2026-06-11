@@ -16,3 +16,5 @@ purpose: "Provide the standard change log structure used when updating runtime c
 - change summary:
 - risk level:
 - reviewed by:
+- registry entries changed:
+- validation evidence:

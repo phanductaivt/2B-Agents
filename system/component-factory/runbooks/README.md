@@ -18,3 +18,14 @@ Each runbook includes:
 - validation checklist
 - expected output
 - recovery or rollback note
+
+## Creation Routes
+
+- Agent: `system/component-factory/runbooks/create-agent-runbook.md`
+- Workflow: `system/component-factory/runbooks/create-workflow-runbook.md`
+- Other supported component types:
+  `system/component-factory/component-types-index.md`
+
+Use `system/component-factory/runbooks/review-component-runbook.md` or
+`system/component-factory/runbooks/update-component-runbook.md` for an existing
+Agent or Workflow. Component Factory phases use `Active Agent: None`.

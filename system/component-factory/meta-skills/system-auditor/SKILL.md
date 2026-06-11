@@ -24,6 +24,10 @@ Review runtime system components through the isolated Component Factory layer.
 - dependency clarity
 - update safety
 - metadata quality
+- canonical registry alignment
+- Agent ownership and boundary completeness when reviewing an Agent
+- Workflow phase, one-active-runbook, lifecycle, gate, and handoff completeness
+  when reviewing a Workflow
 
 ## Prohibited Actions
 

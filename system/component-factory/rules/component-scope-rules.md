@@ -23,3 +23,5 @@ Scope failures include:
 - a rule that behaves like a guardrail
 - a template that tries to encode business output generation logic
 - an artifact contract that tries to act like a project deliverable
+- an Agent that is really an AI Executor, temporary persona, skill, or workflow
+- a Workflow that is really one runbook or combines unrelated operations

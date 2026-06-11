@@ -21,6 +21,10 @@ purpose: "Provide the standard dependency map structure used when evaluating run
 
 - consumer:
 
+## Canonical Registry Entries
+
+- registry entry:
+
 ## Dependency Risks
 
 - risk:

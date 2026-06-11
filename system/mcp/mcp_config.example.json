@@ -1,0 +1,46 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${WORKSPACE_ROOT}"
+      ],
+      "env": {
+        "MCP_LOG_LEVEL": "${MCP_LOG_LEVEL}",
+        "MCP_DRY_RUN": "${MCP_DRY_RUN}"
+      }
+    },
+    "google-drive-bridge": {
+      "command": "python3",
+      "args": [
+        "${GOOGLE_DRIVE_BRIDGE_ENTRYPOINT}"
+      ],
+      "env": {
+        "GOOGLE_DRIVE_INPUT_FOLDER_ID": "${GOOGLE_DRIVE_INPUT_FOLDER_ID}",
+        "GOOGLE_DRIVE_OUTPUT_FOLDER_ID": "${GOOGLE_DRIVE_OUTPUT_FOLDER_ID}",
+        "GOOGLE_DRIVE_REVIEW_FOLDER_ID": "${GOOGLE_DRIVE_REVIEW_FOLDER_ID}",
+        "GOOGLE_DRIVE_CLIENT_ID": "${GOOGLE_DRIVE_CLIENT_ID}",
+        "GOOGLE_DRIVE_CLIENT_SECRET": "${GOOGLE_DRIVE_CLIENT_SECRET}",
+        "GOOGLE_DRIVE_TOKEN_PATH": "${GOOGLE_DRIVE_TOKEN_PATH}",
+        "GOOGLE_DRIVE_LOCAL_SYNC_ROOT": "${GOOGLE_DRIVE_LOCAL_SYNC_ROOT}",
+        "PROJECT_INPUT_DIR": "${PROJECT_INPUT_DIR}",
+        "PROJECT_OUTPUT_DIR": "${PROJECT_OUTPUT_DIR}",
+        "MCP_DRY_RUN": "${MCP_DRY_RUN}",
+        "MCP_LOG_LEVEL": "${MCP_LOG_LEVEL}"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "env": {
+        "MCP_LOG_LEVEL": "${MCP_LOG_LEVEL}",
+        "MCP_DRY_RUN": "${MCP_DRY_RUN}"
+      }
+    }
+  }
+}

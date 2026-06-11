@@ -24,10 +24,16 @@ purpose: "Provide the standard report structure used after creating a runtime co
 - naming check:
 - scope check:
 - dependency check:
+- registry alignment check:
 
 ## Outputs Created
 
 - file:
+
+## Registries Updated
+
+- registry:
+- exact entry:
 
 ## Follow-Up
 

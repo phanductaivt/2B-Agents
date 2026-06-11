@@ -14,3 +14,11 @@ These templates are used only for:
 - artifact contract definition
 
 They are not runtime delivery templates.
+
+Agent creation uses:
+- `system/component-factory/templates/agent-template.md`
+
+Workflow creation reuses the canonical contract template:
+- `system/workflows/workflow-contract-template.md`
+
+Do not create a duplicate factory-local Workflow template.

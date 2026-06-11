@@ -21,6 +21,9 @@ purpose: "Provide the standard structure for a component review report through C
 - dependency
 - overlap
 - update safety
+- canonical registry alignment
+- Agent ownership/boundary contract when type is Agent
+- Workflow phase/lifecycle contract when type is Workflow
 
 ## Findings
 
@@ -35,3 +38,9 @@ purpose: "Provide the standard structure for a component review report through C
 - update
 - merge
 - stop
+
+## Registry Impact
+
+- canonical registry:
+- current alignment:
+- required update:

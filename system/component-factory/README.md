@@ -19,6 +19,11 @@ It governs only these component types:
 - Runbook
 - Template
 - Artifact
+- Agent
+- Workflow
+
+Use `system/component-factory/component-types-index.md` to select one supported
+component type and its exact creation route.
 
 It does **not** create business delivery outputs such as:
 - BRD
@@ -36,6 +41,8 @@ Use Component Factory when you need to:
 - create a new runbook
 - create a new template
 - define or revise an artifact contract
+- create or revise an instruction-defined Agent
+- create or revise an executor-neutral workflow contract
 - review an existing system component for quality, overlap, or safety
 - update a component without breaking runtime behavior
 
@@ -56,13 +63,13 @@ Do not use Component Factory when you need to:
   - `system/skills/`
   - `system/templates/`
   - `system/artifacts/`
-  - used by Codex to execute delivery work
+  - used by an AI Executor to operate instruction-defined Agents and execute delivery work
 
 - Component Factory:
   - `system/component-factory/`
   - used to create or control the runtime components themselves
 
-Runtime is for **using** components.  
+Runtime is for **using** components.
 Component Factory is for **making and maintaining** components.
 
 ## Folder Map
@@ -79,6 +86,9 @@ Component Factory is for **making and maintaining** components.
   - reusable templates for component definitions and reports
 - `artifacts/`
   - standard reports, checklists, and maps used after component work
+- `component-types-index.md`
+  - routes supported component types to canonical runtime homes, creation
+    procedures, templates, and registries
 
 ## Component Creation Workflow
 
@@ -90,6 +100,15 @@ Component Factory is for **making and maintaining** components.
 6. Check the existing runtime folders before creating anything
 7. Create or update the target component only after overlap and safety checks
 8. Produce the required Component Factory report artifact
+
+Agent and Workflow component work must also follow:
+- `system/executors/executor-contract.md`
+- `system/handoff/`
+- `system/workflows/component-governance-workflow.md`
+
+Agent creation updates `system/registries/agents-index.md`. Workflow creation
+updates `system/registries/workflows-index.md`. Update other registries only
+when their exact entries actually change.
 
 ## Safety Rules
 

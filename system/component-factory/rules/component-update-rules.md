@@ -13,9 +13,12 @@ Update a component safely by:
 2. identifying overlap and dependency effects
 3. preferring targeted edits over broad rewrites
 4. preserving naming consistency
-5. producing a change report after the update
+5. updating only exact affected registry entries
+6. producing a change report after the update
 
 Do not update a component by:
 - silently changing its scope
 - rewriting downstream assumptions without review
 - changing runtime behavior without checking linked runbooks, templates, or rules
+- changing Agent ownership or Workflow phase routing without checking canonical
+  registries, output contracts, and handoff impact

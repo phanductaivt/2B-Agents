@@ -15,6 +15,7 @@ purpose: "Prevent duplicate or overlapping runtime components from being created
   - splitting one capability across two weak overlapping components
 - required checks:
   - search related runtime folders
+  - check the canonical registry for the proposed component type
   - compare purpose, scope, and target usage
 - stop condition:
   - overlap remains unresolved
